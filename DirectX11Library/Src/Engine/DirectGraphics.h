@@ -96,7 +96,7 @@ namespace DirectX
 		ID3D11Texture2D* p_DepthStencilTexture;		// ID3D11DepthStencilViewを生成するためのテクスチャ
 		ID3D11DepthStencilView* p_DepthStencilView; // DepthStencilViewのInterface
 		ID3D11Buffer* p_ConstantBuffer;				// 定数バッファ
-		utility::ConstantBuffer constantBufferData; // ConstantBufferデータ
+		Utility::ConstantBuffer constantBufferData; // ConstantBufferデータ
 
 		shader::Vertex* p_VertexShader;
 		shader::Pixcel* p_PixelShader;

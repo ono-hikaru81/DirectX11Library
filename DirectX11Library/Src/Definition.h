@@ -6,10 +6,10 @@
 
 /// @namespace window
 /// @breif ウィンドウに関する情報
-namespace window
+namespace WindowParam
 {
 	//! ウィンドウサイズ
-	static const utility::Vector size(640, 480);
+	static const Utility::Vector size(640, 480);
 }
 
 #endif // DEFINITION_H

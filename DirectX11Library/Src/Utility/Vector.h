@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-namespace utility
+namespace Utility
 {
 	//! ベクトルクラス
 	class Vector
