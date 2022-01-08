@@ -48,7 +48,7 @@ namespace DirectX
 {
 	bool PolygonData::CreatePorigon(ID3D11Device* device_, shader::Vertex* vertexShader_)
 	{
-		utility::Vertex vertexList[] =
+		Utility::Vertex vertexList[] =
 		{
 			{ { -0.5f,  0.5f, 0.0f , 1.0f}, { 1.0f, 0.0f, 0.0f, 1.0f } },
 			{ {  0.5f, -0.5f, 0.0f , 1.0f}, { 0.0f, 1.0f, 0.0f, 1.0f } },
@@ -60,12 +60,12 @@ namespace DirectX
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			vertexBufferDesc.ByteWidth = sizeof(utility::Vertex) * 3,
+			vertexBufferDesc.ByteWidth = sizeof(Utility::Vertex) * 3,
 			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
 			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER,
 			vertexBufferDesc.CPUAccessFlags = 0,
 			vertexBufferDesc.MiscFlags = 0,
-			vertexBufferDesc.StructureByteStride = sizeof(utility::Vertex)
+			vertexBufferDesc.StructureByteStride = sizeof(Utility::Vertex)
 		};
 
 		D3D11_SUBRESOURCE_DATA vertexInitData
@@ -119,7 +119,7 @@ namespace DirectX
 
 	bool PolygonData::CreateRect(ID3D11Device* device_, shader::Vertex* vertexShader_)
 	{
-		utility::Vertex vertexList[]
+		Utility::Vertex vertexList[]
 		{
 			{ { -0.5f,  0.5f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
 			{ {  0.5f,  0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
@@ -136,12 +136,12 @@ namespace DirectX
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			vertexBufferDesc.ByteWidth = sizeof(utility::Vertex) * 4,
+			vertexBufferDesc.ByteWidth = sizeof(Utility::Vertex) * 4,
 			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
 			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER,
 			vertexBufferDesc.CPUAccessFlags = 0,
 			vertexBufferDesc.MiscFlags = 0,
-			vertexBufferDesc.StructureByteStride = sizeof(utility::Vertex)
+			vertexBufferDesc.StructureByteStride = sizeof(Utility::Vertex)
 		};
 
 		D3D11_SUBRESOURCE_DATA vertexInitDesc
@@ -195,7 +195,7 @@ namespace DirectX
 
 	bool PolygonData::CreateCube(ID3D11Device* device_, shader::Vertex* vertexShader_)
 	{
-		utility::Vertex vertexList[]
+		Utility::Vertex vertexList[]
 		{
 			{ { -0.5f,  0.5f, -0.5f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
 			{ {  0.5f,  0.5f, -0.5f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
@@ -241,7 +241,7 @@ namespace DirectX
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			vertexBufferDesc.ByteWidth = sizeof(utility::Vertex) * 24,
+			vertexBufferDesc.ByteWidth = sizeof(Utility::Vertex) * 24,
 			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
 			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER,
 			vertexBufferDesc.CPUAccessFlags = 0,

@@ -95,7 +95,7 @@ namespace DirectX
 
 	void Graphics::DrawPorigon(float posX_, float posY_, float width_, float height_, float angle_)
 	{
-		UINT strides = sizeof(utility::Vertex);
+		UINT strides = sizeof(Utility::Vertex);
 		//	DXGI_FORMAT format = DXGI_FORMAT_R16_UINT;
 		UINT offsets = 0;
 		ID3D11Buffer* vertexBuffer = p_Porigon->GetVertexBuffer();
@@ -131,7 +131,7 @@ namespace DirectX
 
 	void Graphics::DrawRect(float posX_, float posY_, float width_, float height_, float angle_)
 	{
-		UINT strides = sizeof(utility::Vertex);
+		UINT strides = sizeof(Utility::Vertex);
 		//	DXGI_FORMAT format = DXGI_FORMAT_R16_UINT;
 		UINT offsets = 0;
 		ID3D11Buffer* vertexBuffer = p_Rect->GetVertexBuffer();
@@ -201,7 +201,7 @@ namespace DirectX
 
 	void Graphics::DrawCube(float posX_, float posY_, float width_, float height_, float angle_)
 	{
-		UINT strides = sizeof(utility::Vertex);
+		UINT strides = sizeof(Utility::Vertex);
 		//	DXGI_FORMAT format = DXGI_FORMAT_R16_UINT;
 		UINT offsets = 0;
 		ID3D11Buffer* vertexBuffer = p_Cube->GetVertexBuffer();
@@ -396,7 +396,7 @@ namespace DirectX
 	{
 		D3D11_BUFFER_DESC constantBufferDesc
 		{
-			constantBufferDesc.ByteWidth = sizeof(utility::ConstantBuffer),
+			constantBufferDesc.ByteWidth = sizeof(Utility::ConstantBuffer),
 			constantBufferDesc.Usage = D3D11_USAGE_DEFAULT,
 			constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER,
 			constantBufferDesc.CPUAccessFlags = 0,

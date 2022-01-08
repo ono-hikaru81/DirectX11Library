@@ -4,7 +4,7 @@
 
 #include <DirectXMath.h>
 
-namespace utility
+namespace Utility
 {
 	struct Vertex
 	{

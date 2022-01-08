@@ -6,9 +6,9 @@
 
 int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 {
-	Window window("DirectX11Library", static_cast<int>(window::size.GetX()), static_cast<int>(window::size.GetY()));
+	Window WindowParam("DirectX11Library", static_cast<int>(WindowParam::size.GetX()), static_cast<int>(WindowParam::size.GetY()));
 
-	if (window.Create() == false) return 0;
+	if (WindowParam.Create() == false) return 0;
 
 	DirectX::Graphics dg {};
 
