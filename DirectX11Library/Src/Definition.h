@@ -4,12 +4,10 @@
 
 #include "Utility/Vector.h"
 
-/// @namespace window
-/// @breif ウィンドウに関する情報
-namespace WindowParam
+//! ウィンドウ情報
+namespace WindowInfo
 {
-	//! ウィンドウサイズ
-	static const Utility::Vector size(640, 480);
+	static const Utility::Vector size(640, 480);	//! ウィンドウサイズ
 }
 
 #endif // DEFINITION_H

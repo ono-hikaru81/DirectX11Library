@@ -6,23 +6,26 @@ cbuffer ConstantBuffer
 }
 
 // VertexShaderに送られてくるデータ構造
-struct VS_IN
+struct VSInput
 {
 	float4 pos : POSITION0;
-	float4 col : COLOR0;
+	float4 color : COLOR0;
 };
 
 // VertexShaderから出力するデータ構造
-struct VS_OUT
+struct VSOutput
 {
 	float4 pos : SV_POSITION;
-	float4 col : COLOR0;
+	float4 color : COLOR0;
 };
 
-
-VS_OUT vs_main(VS_IN input)
+VSOutput vs_main(VSInput input)
 {
-	VS_OUT output;
+	VSOutput output;
+
+	output.pos = input.pos;
+	output.color = input.color;
+
 	float4x4 world = World;
 
 	// ワールド座標とスクリーン座標ではY軸が異なるため移動方向を反転
@@ -55,9 +58,6 @@ VS_OUT vs_main(VS_IN input)
 	// オフセットを足して原点の位置を修正
 	output.pos.x = projectionPosX + offsetX;
 	output.pos.y = projectionPosY + offsetY;
-
-	output.pos = input.pos;
-	output.col = input.col;
 
 	return output;
 }

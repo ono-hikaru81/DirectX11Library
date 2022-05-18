@@ -1,21 +1,30 @@
 ﻿
 #include "Definition.h"
-#include "Engine/DirectGraphics.h"
-#include "Engine/PolygonData.h"
-#include "Window/Window.h"
+#include "Library/Window/Window.h"
+#include "Library/Graphics/DirectGraphics.h"
+#include "Library/Input/Input.h"
+#include "Library/Sound/Sound.h"
 
 int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 {
-	Window WindowParam("DirectX11Library", static_cast<int>(WindowParam::size.GetX()), static_cast<int>(WindowParam::size.GetY()));
+	Library::Window WindowInfo("DirectX11Library", static_cast<int>(WindowInfo::size.GetX()), static_cast<int>(WindowInfo::size.GetY()));
 
-	if (WindowParam.Create() == false) return 0;
+	if (!WindowInfo.Create()) return 0;
 
-	DirectX::Graphics dg {};
+	Library::DirectGraphics directGraphics {};
+	Library::Input directInput {};
+	Library::Sound directSound {};
 
-	if (dg.Init() == false) return 0;
+	// エンジン初期化
+	if (!directGraphics.Initialize()) return 0;
+	if (!directInput.Initialize()) return 0;
+	if (!directSound.Initialize()) return 0;
 
-	// モデル初期化
-//ModelData* p_model;
+	// 画像読み込み
+	if (directGraphics.Loadtexture(L"Res/Texture/miniball.png") == false) return 0;
+
+	// 音楽ファイル読み込み
+	directSound.LoadFile(Library::Sound::File::TestBGM, "Res/Sound/loop1.wav");
 
 	// メインループ
 	while (true)
@@ -33,15 +42,36 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 		}
 		else
 		{
-			dg.StartRendering();
+			directGraphics.StartRendering();
+			directInput.Update();
 
-			dg.DrawPorigon(0.0f, 0.0f, 100.0f, 100.0f);
-			dg.DrawRect(100.0f, 100.0f, 100.0f, 100.0f);
-			dg.DrawCube(200.0f, 200.0f, 100.0f, 100.0f);
+			if (directInput.IsKeyHeld(DIK_R))
+			{
+				// 音楽ファイル再生
+				directSound.PlayFile(Library::Sound::File::TestBGM, true);
+			}
 
-			dg.FinishRendering();
+			if (directInput.IsKeyHeld(DIK_S))
+			{
+				// 音楽ファイル停止
+				directSound.StopFile(Library::Sound::File::TestBGM);
+			}
+
+			// ポリゴン描画
+			directGraphics.DrawPorigon(0.0f, 0.0f, 100.0f, 100.0f);
+			directGraphics.DrawRect(100.0f, 100.0f, 100.0f, 100.0f);
+
+			// テクスチャ描画
+			directGraphics.DrawTexture(L"Res/Texture/miniball.png");
+
+			directGraphics.FinishRendering();
 		}
 	}
+
+	// エンジン解放
+	directGraphics.Release();
+	directInput.Release();
+	directSound.Release();
 
 	return 0;
 }

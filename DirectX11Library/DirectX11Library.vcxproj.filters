@@ -5,66 +5,75 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Window">
-      <UniqueIdentifier>{6bc9e35e-4727-473a-b2eb-d58e69a12f08}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Utility">
       <UniqueIdentifier>{29407a15-63fd-40de-993e-c068e4659c52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine">
-      <UniqueIdentifier>{5f122e98-f599-4f4e-b533-aba8d7cc05c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Shader">
-      <UniqueIdentifier>{ddf665b4-3ec9-41dc-8f77-6dd286a9a0ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{0b8645f4-c8b4-47b8-bb3e-6fcb727034e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library">
+      <UniqueIdentifier>{5f122e98-f599-4f4e-b533-aba8d7cc05c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Shader">
+      <UniqueIdentifier>{ddf665b4-3ec9-41dc-8f77-6dd286a9a0ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Input">
+      <UniqueIdentifier>{ad923d3b-9518-4a0f-ba02-bacf0d5ce651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Graphics">
+      <UniqueIdentifier>{71701e24-3937-406a-a689-3d69dc4d3820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Sound">
+      <UniqueIdentifier>{083bafdf-7c07-4250-9e83-cf4ba33e7e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Texture">
+      <UniqueIdentifier>{8c9c6ad1-07f9-45bc-9fb8-784bdc19d29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Window">
+      <UniqueIdentifier>{6bc9e35e-4727-473a-b2eb-d58e69a12f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Library\Polygon">
+      <UniqueIdentifier>{c0b70cee-60b3-42ec-8b20-b6da869a6421}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Window\Window.cpp">
-      <Filter>ソース ファイル\Window</Filter>
+    <ClCompile Include="Src\Library\Shader\PixelShader.cpp">
+      <Filter>ソース ファイル\Library\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\DirectGraphics.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
+    <ClCompile Include="Src\Library\Shader\ShaderBase.cpp">
+      <Filter>ソース ファイル\Library\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\PolygonData.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
+    <ClCompile Include="Src\Library\Shader\VertexShader.cpp">
+      <Filter>ソース ファイル\Library\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Shader\PixelShader.cpp">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
+    <ClCompile Include="Src\Library\Window\Window.cpp">
+      <Filter>ソース ファイル\Library\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Shader\ShaderBase.cpp">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
+    <ClCompile Include="Src\Library\Texture\WICTextureLoader.cpp">
+      <Filter>ソース ファイル\Library\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Shader\VertexShader.cpp">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
+    <ClCompile Include="Src\Library\Texture\Texture.cpp">
+      <Filter>ソース ファイル\Library\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Input\Input.cpp">
+      <Filter>ソース ファイル\Library\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Sound\Sound.cpp">
+      <Filter>ソース ファイル\Library\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Polygon\PolygonData.cpp">
+      <Filter>ソース ファイル\Library\Polygon</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Graphics\DirectGraphics.cpp">
+      <Filter>ソース ファイル\Library\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Window\Window.h">
-      <Filter>ソース ファイル\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Utility\Graphics.h">
       <Filter>ソース ファイル\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\DirectGraphics.h">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\PolygonData.h">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Shader\PixelShader.h">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Shader\ShaderBase.h">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Shader\VertexShader.h">
-      <Filter>ソース ファイル\Engine\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Src\Utility\Vector.h">
       <Filter>ソース ファイル\Utility</Filter>
@@ -72,13 +81,55 @@
     <ClInclude Include="Src\Definition.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Utility\Singleton.h">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Shader\PixelShader.h">
+      <Filter>ソース ファイル\Library\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Shader\ShaderBase.h">
+      <Filter>ソース ファイル\Library\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Shader\VertexShader.h">
+      <Filter>ソース ファイル\Library\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Window\Window.h">
+      <Filter>ソース ファイル\Library\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Texture\Texture.h">
+      <Filter>ソース ファイル\Library\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Input\Input.h">
+      <Filter>ソース ファイル\Library\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Sound\Sound.h">
+      <Filter>ソース ファイル\Library\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Polygon\PolygonData.h">
+      <Filter>ソース ファイル\Library\Polygon</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Graphics\DirectGraphics.h">
+      <Filter>ソース ファイル\Library\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Texture\WICTextureLoader.h">
+      <Filter>ソース ファイル\Library\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\VertexShader.hlsl">
+    <FxCompile Include="Shader\TextureVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\PixelShader.hlsl">
+    <FxCompile Include="Shader\TexturePixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Shader\2DPolygonVertexShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\2DPolygonPixelShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

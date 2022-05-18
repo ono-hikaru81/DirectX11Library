@@ -6,19 +6,28 @@
 
 namespace Utility
 {
-	//! ベクトルクラス
+	/**
+	* @breif ベクトルクラス
+	*/
 	class Vector
 	{
 	public:
-		//! コンストラクタ
+		/**
+		* @breif コンストラクタ
+		*/
 		Vector() : x(0), y(0), z(0) {}
 		Vector(const double& x_, const double& y_) : x(x_), y(y_), z(0) {}
 		Vector(const double &x_, const double& y_, const double& z_) : x(x_), y(y_), z(z_) {}
 
+		/**
+		* @breif デストラクタ
+		*/
 		~Vector() = default;
 
 	public:
-		//! アクセサ関数
+		/**
+		* @breif アクセサ関数
+		*/
 		double GetX() const { return x; }
 		double GetY() const { return y; }
 		double GetZ() const { return z; }

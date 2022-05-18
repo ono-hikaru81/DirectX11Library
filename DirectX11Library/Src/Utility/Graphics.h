@@ -17,6 +17,13 @@ namespace Utility
 		DirectX::XMFLOAT4X4 world;
 		DirectX::XMFLOAT4 viewPort;
 	};
+
+	struct TextureVertex
+	{
+		float pos[3];
+		float color[4];
+		float uv[2];
+	};
 }
 
 #endif // !GRAPHICS_H

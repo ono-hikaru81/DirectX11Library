@@ -348,3 +348,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+DirectX11Library/.vscode/
+DirectX11Library/Res/Sound/
+DirectXLibrary/Res/Texture/
+DirectX11Library/packages.config
+DirectX11Library/Res/Texture/
