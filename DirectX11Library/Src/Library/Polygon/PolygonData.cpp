@@ -25,7 +25,10 @@ namespace Library
 		};
 
 		// 頂点番号
-		UWORD vertexNumber[]{ 0, 1, 2 };
+		UWORD vertexNumber[]
+		{ 
+			0, 1, 2 
+		};
 
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
@@ -98,9 +101,9 @@ namespace Library
 		};
 
 		// 頂点番号
-		UWORD indexList[]
+		UWORD vertexNumber[]
 		{
-			0, 1, 2, 1, 3, 2
+			0, 1, 2, 3,
 		};
 
 		// 頂点バッファ作成
@@ -139,7 +142,7 @@ namespace Library
 		// インデックスバッファ作成
 		D3D11_SUBRESOURCE_DATA indexInitData
 		{
-			.pSysMem = indexList,
+			.pSysMem = vertexNumber,
 			.SysMemPitch = 0,
 			.SysMemSlicePitch = 0
 		};

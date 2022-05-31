@@ -138,7 +138,7 @@ namespace Library
 		// インデックスバッファの設定
 		p_DeviceContext->IASetIndexBuffer(p_IndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 		// プリミティブ型の設定
-		p_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		p_DeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		// 頂点シェーダの設定
 		p_DeviceContext->VSSetShader(p_VertexShader->GetShaderInterface(), NULL, 0);
 		// ピクセルシェーダの設定
@@ -165,7 +165,7 @@ namespace Library
 		// コンスタントバッファを設定
 		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
 		// インデックスバッファによる描画
-		p_DeviceContext->DrawIndexed(6, 0, 0);
+		p_DeviceContext->DrawIndexed(4, 0, 0);
 	}
 
 	// テクスチャ読み込み
@@ -248,7 +248,7 @@ namespace Library
 		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
 
 		// 描画
-		p_DeviceContext->DrawIndexed(6, 0, 0);
+		p_DeviceContext->DrawIndexed(4, 0, 0);
 	}
 
 	void DirectGraphics::SetUpDxgiSwapChainDesc(DXGI_SWAP_CHAIN_DESC* p_Dxgi_)

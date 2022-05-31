@@ -6,16 +6,16 @@
 
 namespace Utility
 {
-	struct Vertex
-	{
-		float pos[4];
-		float col[4];
-	};
-
 	struct ConstantBuffer
 	{
 		DirectX::XMFLOAT4X4 world;
 		DirectX::XMFLOAT4 viewport;
+	};
+
+	struct Vertex
+	{
+		float pos[4];
+		float col[4];
 	};
 
 	struct TextureVertex

@@ -4,6 +4,7 @@
 
 namespace Library
 {
+	// 初期化
 	bool Input::Initialize()
 	{
 		// DirectInputインターフェースの初期化
@@ -30,6 +31,7 @@ namespace Library
 		return true;
 	}
 
+	// 入力状態更新
 	void Input::Update()
 	{
 		BYTE tmpKeyStatus[KEY_MAX]{};
@@ -51,6 +53,7 @@ namespace Library
 		}
 	}
 	
+	// 解放
 	void Input::Release()
 	{
 		// キーボード解放
@@ -69,6 +72,7 @@ namespace Library
 		}
 	}
 
+	// キーの押下状態更新
 	Input::KeyStatus Input::UpdateKeyStatus(bool isPush_, KeyStatus state_)
 	{
 		if (isPush_)
@@ -92,7 +96,7 @@ namespace Library
 
 		return KeyStatus::NoHold;
 	}
-
+	// キーを押している状態
 	bool Input::IsKeyHeld(int key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;
@@ -100,6 +104,7 @@ namespace Library
 		return keyStatus[key_] == KeyStatus::Held ? true : false;
 	}
 
+	// キーを押した瞬間
 	bool Input::IsKeyPushed(int key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;
@@ -107,6 +112,7 @@ namespace Library
 		return keyStatus[key_] == KeyStatus::Pushed ? true : false;
 	}
 
+	// キーを離した瞬間
 	bool Input::IsKeyReleased(int key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;

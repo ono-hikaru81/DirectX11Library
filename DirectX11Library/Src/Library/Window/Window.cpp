@@ -73,6 +73,7 @@ namespace Library
 		return true;
 	}
 
+	// ウィンドウのサイズ調整
 	void Window::ResizeWindow(HWND windowHandle_)
 	{
 		RECT windowRect;
