@@ -20,6 +20,7 @@ namespace Library
 		*/
 		Texture() :
 			p_VertexBuffer(nullptr),
+			p_IndexBuffer(nullptr),
 			p_InputLayout(nullptr)
 		{}
 
@@ -31,6 +32,12 @@ namespace Library
 			if (p_VertexBuffer != nullptr)
 			{
 				p_VertexBuffer->Release();
+				p_VertexBuffer = nullptr;
+			}
+
+			if (p_IndexBuffer != nullptr)
+			{
+				p_IndexBuffer->Release();
 				p_VertexBuffer = nullptr;
 			}
 
@@ -47,6 +54,11 @@ namespace Library
 		* @return 頂点バッファ
 		*/
 		ID3D11Buffer* GetVertexBuffer() { return p_VertexBuffer.Get(); }
+		/**
+		* @breif アクセサ関数
+		* @return インデックスバッファ
+		*/
+		ID3D11Buffer* GetIndexBuffer() { return p_IndexBuffer.Get(); }
 		/*
 		* @breif アクセサ関数
 		* @return 入力レイアウト
@@ -63,6 +75,7 @@ namespace Library
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> p_VertexBuffer;		//! 頂点バッファ
+		Microsoft::WRL::ComPtr <ID3D11Buffer> p_IndexBuffer;		//! インデックスバッファ
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> p_InputLayout;	//! 入力レイアウト
 	};
 }

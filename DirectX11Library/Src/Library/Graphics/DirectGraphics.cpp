@@ -110,7 +110,7 @@ namespace Library
 
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
-		constantBufferData.viewPort = DirectX::XMFLOAT4(viewPort.Width, viewPort.Height, 0.0f, 1.0f);
+		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
@@ -155,7 +155,7 @@ namespace Library
 
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
-		constantBufferData.viewPort = DirectX::XMFLOAT4(viewPort.Width, viewPort.Height, 0.0f, 1.0f);
+		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
@@ -202,29 +202,53 @@ namespace Library
 	}
 
 	// テクスチャ描画
-	void DirectGraphics::DrawTexture(const std::wstring fileName_)
+	void DirectGraphics::DrawTexture(const std::wstring fileName_, float posX_, float posY_, float width_, float height_, float angle_ )
 	{
 		UINT strides = sizeof(Utility::TextureVertex);
 		UINT offsets = 0;
 		ID3D11Buffer* buffer = p_Texture->GetVertexBuffer();
+		ID3D11Buffer* p_IndexBuffer = p_Texture->GetIndexBuffer();
 
-		// プリミティブ型の設定
-		p_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		// 頂点シェーダの設定
-		p_DeviceContext->VSSetShader(p_TextureVertexShader->GetShaderInterface(), nullptr, 0);
-		// ピクセルシェーダの設定
-		p_DeviceContext->PSSetShader(p_TexturePixelShader->GetShaderInterface(), nullptr, 0);
-		// 出力先の設定
-		p_DeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_DepthStencilView);
 		// 入力レイアウトの設定
 		p_DeviceContext->IASetInputLayout(p_Texture->GetInputLayput());
+		// 頂点シェーダの設定
+		p_DeviceContext->VSSetShader(p_TextureVertexShader->GetShaderInterface(), nullptr, 0);
+		// インデックスバッファの設定
+		p_DeviceContext->IASetIndexBuffer(p_IndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+		// プリミティブ型の設定
+		p_DeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		// 頂点データの設置
 		p_DeviceContext->IASetVertexBuffers(0, 1, &buffer, &strides, &offsets);
 		// ピクセルシェーダのサンプラを設定
 		p_DeviceContext->PSSetSamplers(0, 1, &p_SamplerState);
 		// ピクセルシェーダで使用するテクスチャを設定
 		p_DeviceContext->PSSetShaderResources(0, 1, &textureList[fileName_]);
-		p_DeviceContext->Draw(6, 0);
+		// ピクセルシェーダの設定
+		p_DeviceContext->PSSetShader(p_TexturePixelShader->GetShaderInterface(), nullptr, 0);
+		// 出力先の設定
+		p_DeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_DepthStencilView);
+
+		DirectX::XMMATRIX worldMatrix = DirectX::XMMatrixIdentity();
+		DirectX::XMMATRIX rotateZ = DirectX::XMMatrixRotationZ(angle_ / (180.0f * 3.14f));
+		DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(width_, height_, 1.0f);
+		DirectX::XMMATRIX translate = DirectX::XMMatrixTranslation(posX_, posY_, 0);
+
+		worldMatrix = scale * rotateZ * translate;
+
+		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
+
+		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
+
+		// コンスタントバッファ更新
+		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
+
+		ID3D11Buffer* p_TempConstantBuffer = p_ConstantBuffer;
+
+		// コンスタントバッファを設定
+		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
+
+		// 描画
+		p_DeviceContext->DrawIndexed(6, 0, 0);
 	}
 
 	void DirectGraphics::SetUpDxgiSwapChainDesc(DXGI_SWAP_CHAIN_DESC* p_Dxgi_)
@@ -378,7 +402,7 @@ namespace Library
 		GetClientRect(windowHandle, &rect);
 
 		// ビューポートの設定
-		viewPort =
+		viewport =
 		{
 			.TopLeftX = 0,	// 左上X座標
 			.TopLeftY = 0,	// 左上Y座標
@@ -390,6 +414,6 @@ namespace Library
 		
 		// 設定するビューポートの数
 		// 設定するビューポート情報のポインタ
-		p_DeviceContext->RSSetViewports(1, &viewPort);
+		p_DeviceContext->RSSetViewports(1, &viewport);
 	}
 };

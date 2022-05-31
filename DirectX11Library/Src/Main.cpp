@@ -58,11 +58,11 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 			}
 
 			// ポリゴン描画
-			directGraphics.DrawPorigon(0.0f, 0.0f, 100.0f, 100.0f);
-			directGraphics.DrawRect(100.0f, 100.0f, 100.0f, 100.0f);
+			//directGraphics.DrawPorigon(0.0f, 0.0f, 100.0f, 100.0f);
+			//directGraphics.DrawRect(100.0f, 100.0f, 100.0f, 100.0f);
 
 			// テクスチャ描画
-			directGraphics.DrawTexture(L"Res/Texture/miniball.png");
+			directGraphics.DrawTexture(L"Res/Texture/miniball.png", 0.0f, 0.0f, 32.0f, 32.0f);
 
 			directGraphics.FinishRendering();
 		}

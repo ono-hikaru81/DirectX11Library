@@ -30,20 +30,20 @@ namespace Library
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			vertexBufferDesc.ByteWidth = sizeof(Utility::Vertex) * 3,
-			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
-			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER,
-			vertexBufferDesc.CPUAccessFlags = 0,
-			vertexBufferDesc.MiscFlags = 0,
-			vertexBufferDesc.StructureByteStride = sizeof(Utility::Vertex)
+			.ByteWidth = sizeof(Utility::Vertex) * 3,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_VERTEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = sizeof(Utility::Vertex)
 		};
 
 		// 頂点バッファの初期データ
 		D3D11_SUBRESOURCE_DATA vertexInitData
 		{
-			vertexInitData.pSysMem = vertexList,
-			vertexInitData.SysMemSlicePitch = 0,
-			vertexInitData.SysMemSlicePitch = 0
+			.pSysMem = vertexList,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
 		};
 
 		// バッファ作成
@@ -52,20 +52,20 @@ namespace Library
 		// インデックスバッファ作成
 		D3D11_BUFFER_DESC indexBufferDesc
 		{
-			indexBufferDesc.ByteWidth = sizeof(UWORD) * 3,
-			indexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
-			indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER,
-			indexBufferDesc.CPUAccessFlags = 0,
-			indexBufferDesc.MiscFlags = 0,
-			indexBufferDesc.StructureByteStride = 0
+			.ByteWidth = sizeof(UWORD) * 3,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_INDEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = 0
 		};
 
 		// インデックスバッファ作成
 		D3D11_SUBRESOURCE_DATA indexInitData
 		{
-			indexInitData.pSysMem = vertexNumber,
-			indexInitData.SysMemPitch = 0,
-			indexInitData.SysMemSlicePitch = 0
+			.pSysMem = vertexNumber,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
 		};
 
 		// バッファ作成
@@ -106,20 +106,20 @@ namespace Library
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			vertexBufferDesc.ByteWidth = sizeof(Utility::Vertex) * 4,
-			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
-			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER,
-			vertexBufferDesc.CPUAccessFlags = 0,
-			vertexBufferDesc.MiscFlags = 0,
-			vertexBufferDesc.StructureByteStride = sizeof(Utility::Vertex)
+			.ByteWidth = sizeof(Utility::Vertex) * 4,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_VERTEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = sizeof(Utility::Vertex)
 		};
 
 		// 頂点バッファの初期データ
 		D3D11_SUBRESOURCE_DATA vertexInitDesc
 		{
-			vertexInitDesc.pSysMem = vertexList,
-			vertexInitDesc.SysMemSlicePitch = 0,
-			vertexInitDesc.SysMemSlicePitch = 0
+			.pSysMem = vertexList,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
 		};
 
 		// バッファ作成
@@ -128,20 +128,20 @@ namespace Library
 		// インデックスバッファ作成
 		D3D11_BUFFER_DESC indexBufferDesc
 		{
-			indexBufferDesc.ByteWidth = sizeof(UWORD) * 6,
-			indexBufferDesc.Usage = D3D11_USAGE_DEFAULT,
-			indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER,
-			indexBufferDesc.CPUAccessFlags = 0,
-			indexBufferDesc.MiscFlags = 0,
-			indexBufferDesc.StructureByteStride = 0
+			.ByteWidth = sizeof(UWORD) * 6,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_INDEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = 0
 		};
 
 		// インデックスバッファ作成
 		D3D11_SUBRESOURCE_DATA indexInitData
 		{
-			indexInitData.pSysMem = indexList,
-			indexInitData.SysMemPitch = 0,
-			indexInitData.SysMemSlicePitch = 0
+			.pSysMem = indexList,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
 		};
 
 		// バッファ作成

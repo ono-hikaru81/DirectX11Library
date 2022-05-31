@@ -18,40 +18,65 @@ namespace Library
         // 頂点データ作成
         Utility::TextureVertex vertexList[]
         {
-            { { -0.2f,  0.2f, 0.2f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-            { {  0.2f,  0.2f, 0.2f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
-            { { -0.2f, -0.2f, 0.2f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },
-
-            { {  0.2f,  0.2f, 0.2f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
-            { {  0.2f, -0.2f, 0.2f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
-            { { -0.2f, -0.2f, 0.2f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+            { { -0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+            { {  0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
+            { { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+            { {  0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
         };
 
-        // 頂点バッファ作成
-        D3D11_BUFFER_DESC bufferDesc
-        {
-            .ByteWidth = sizeof(Utility::TextureVertex) * 6,
-            .Usage = D3D11_USAGE_DEFAULT,
-            .BindFlags = D3D11_BIND_VERTEX_BUFFER,
-            .CPUAccessFlags = 0,
-            .MiscFlags = 0,
-            .StructureByteStride = sizeof(Utility::TextureVertex)
-        };
+		// 頂点番号
+		UWORD vertexNumber[]
+		{
+			0, 1, 2, 3
+		};
 
-        // 頂点バッファの初期データ
-        D3D11_SUBRESOURCE_DATA subResourceData
-        {
-            .pSysMem = vertexList,
-            .SysMemPitch = 0,
-            .SysMemSlicePitch = 0
-        };
+		// 頂点バッファ作成
+		D3D11_BUFFER_DESC vertexBufferDesc
+		{
+			.ByteWidth = sizeof(Utility::TextureVertex) * 4,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_VERTEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = sizeof(Utility::TextureVertex)
+		};
 
-        // バッファ作成
-        if (FAILED(p_Device_->CreateBuffer(&bufferDesc, &subResourceData, &p_VertexBuffer))) return false;
+		// 頂点バッファの初期データ
+		D3D11_SUBRESOURCE_DATA vertexInitDesc
+		{
+			.pSysMem = vertexList,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
+		};
 
-        // 頂点レイアウト作成
-        if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), &p_InputLayout))) return false;
+		// バッファ作成
+		if (FAILED(p_Device_->CreateBuffer(&vertexBufferDesc, &vertexInitDesc, &p_VertexBuffer))) return false;
 
-        return true;
+		// インデックスバッファ作成
+		D3D11_BUFFER_DESC indexBufferDesc
+		{
+			.ByteWidth = sizeof(UWORD) * 6,
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_INDEX_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = 0
+		};
+
+		// インデックスバッファ作成
+		D3D11_SUBRESOURCE_DATA indexInitData
+		{
+			.pSysMem = vertexNumber,
+			.SysMemPitch = 0,
+			.SysMemSlicePitch = 0
+		};
+
+		// バッファ作成
+		if (FAILED(p_Device_->CreateBuffer(&indexBufferDesc, &indexInitData, &p_IndexBuffer))) return false;
+
+		// 頂点レイアウト作成
+		if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), &p_InputLayout))) return false;
+
+		return true;
     }
 }

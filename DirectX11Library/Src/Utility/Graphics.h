@@ -15,7 +15,7 @@ namespace Utility
 	struct ConstantBuffer
 	{
 		DirectX::XMFLOAT4X4 world;
-		DirectX::XMFLOAT4 viewPort;
+		DirectX::XMFLOAT4 viewport;
 	};
 
 	struct TextureVertex

@@ -105,7 +105,7 @@ namespace Library
 		* @breif テクスチャ描画
 		* @param fileName_ : 読みこむテクスチャファイルの名前
 		*/
-		void DrawTexture(const std::wstring fileName_);
+		void DrawTexture(const std::wstring fileName_, float posX_, float posY_, float width_, float height_, float angle_ = 0.0f);
 
 	private:
 		/**
@@ -158,7 +158,7 @@ namespace Library
 		ID3D11Texture2D* p_DepthStencilTexture;		//! DepthStencilView
 		ID3D11DepthStencilView* p_DepthStencilView; //! DepthStencilView
 		ID3D11Buffer* p_ConstantBuffer;				//! Buffer
-		D3D11_VIEWPORT viewPort;					//! ViewPort
+		D3D11_VIEWPORT viewport;					//! ViewPort
 		ID3D11SamplerState* p_SamplerState;			//! SamplerState
 
 		Utility::ConstantBuffer constantBufferData; //! ConstantBuffer
