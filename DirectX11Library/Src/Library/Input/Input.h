@@ -8,7 +8,7 @@
 #include <dinput.h>
 #include <array>
 
-namespace Library
+namespace Engine
 {
 	class Input
 	{

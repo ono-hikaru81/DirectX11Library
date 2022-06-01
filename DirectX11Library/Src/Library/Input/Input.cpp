@@ -2,7 +2,7 @@
 #include "Input.h"
 #include <algorithm>
 
-namespace Library
+namespace Engine
 {
 	// 初期化
 	bool Input::Initialize()

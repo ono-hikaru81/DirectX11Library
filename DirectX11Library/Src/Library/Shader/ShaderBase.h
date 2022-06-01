@@ -5,7 +5,7 @@
 #include <d3d11.h>
 #include <stdio.h>
 
-namespace Library
+namespace Engine
 {
 	namespace Shader
 	{

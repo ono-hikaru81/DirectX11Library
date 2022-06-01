@@ -1,7 +1,7 @@
 ﻿
 #include "Window.h"
 
-namespace Library
+namespace Engine
 {
 	const char* Window::p_ClassName = "WindowClass";
 
@@ -22,8 +22,12 @@ namespace Library
 	}
 
 	// ウィンドウ作成
-	bool Window::Create()
+	bool Window::Create(const char* p_Title_, unsigned int width_, unsigned int height_)
 	{
+		p_Title = p_Title_;
+		width = width_;
+		height = height_;
+
 		if (!RegisterWindowClass()) return 0;
 
 		HWND windowHandle = CreateWindow(

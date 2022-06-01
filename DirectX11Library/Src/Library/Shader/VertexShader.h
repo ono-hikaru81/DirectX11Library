@@ -6,7 +6,7 @@
 
 #include "ShaderBase.h"
 
-namespace Library
+namespace Engine
 {
 	namespace Shader
 	{

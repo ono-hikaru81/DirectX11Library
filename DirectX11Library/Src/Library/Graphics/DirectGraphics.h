@@ -12,7 +12,7 @@
 #include "../Texture/Texture.h"
 #include "../../Utility/Graphics.h"
 
-namespace Library
+namespace Engine
 {
 	class DirectGraphics
 	{
@@ -87,7 +87,7 @@ namespace Library
 		* @return trueなら読み込み成功
 		* @param fileName_ : 読みこむテクスチャファイルの名前
 		*/
-		bool Loadtexture(const std::wstring fileName_);
+		bool LoadTexture(const std::wstring fileName_);
 
 		/*
 		* @breif テクスチャ解放

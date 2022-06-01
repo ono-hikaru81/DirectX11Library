@@ -1,7 +1,7 @@
 ﻿
 #include "PixelShader.h"
 
-namespace Library
+namespace Engine
 {
 	namespace Shader
 	{

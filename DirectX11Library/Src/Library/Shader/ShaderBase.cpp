@@ -5,7 +5,7 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-namespace Library
+namespace Engine
 {
 	namespace Shader
 	{

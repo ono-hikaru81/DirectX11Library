@@ -4,7 +4,7 @@
 #include "../../Definition.h"
 #include "../../Utility/Graphics.h"
 
-namespace Library
+namespace Engine
 {
 	// ポリゴン作成
 	bool PolygonData::CreatePorigon(ID3D11Device* p_Device_, Shader::Vertex* p_VertexShader_)

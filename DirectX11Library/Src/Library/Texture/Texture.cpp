@@ -3,7 +3,7 @@
 
 #include "../../Utility/Graphics.h"
 
-namespace Library
+namespace Engine
 {
     // テクスチャを張り付けるポリゴンを作成
     bool Texture::CreatePorigonModel(ID3D11Device* p_Device_, Shader::Vertex* p_VertexShader_)

@@ -6,7 +6,7 @@
 
 #include "../Shader/VertexShader.h"
 
-namespace Library
+namespace Engine
 {
 	class PolygonData
 	{

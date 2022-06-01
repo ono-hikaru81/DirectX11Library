@@ -180,6 +180,10 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
   <ItemGroup>
     <ClCompile Include="Src\Library\Graphics\DirectGraphics.cpp" />
     <ClCompile Include="Src\Library\Input\Input.cpp" />
+    <ClCompile Include="Src\Library\Library.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Src\Library\Polygon\PolygonData.cpp" />
     <ClCompile Include="Src\Library\Shader\PixelShader.cpp" />
     <ClCompile Include="Src\Library\Shader\ShaderBase.cpp" />
@@ -194,6 +198,10 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
     <ClInclude Include="Src\Definition.h" />
     <ClInclude Include="Src\Library\Graphics\DirectGraphics.h" />
     <ClInclude Include="Src\Library\Input\Input.h" />
+    <ClInclude Include="Src\Library\Library.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Src\Library\Polygon\PolygonData.h" />
     <ClInclude Include="Src\Library\Shader\PixelShader.h" />
     <ClInclude Include="Src\Library\Shader\ShaderBase.h" />

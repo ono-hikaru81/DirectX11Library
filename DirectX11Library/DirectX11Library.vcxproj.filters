@@ -70,6 +70,9 @@
     <ClCompile Include="Src\Library\Graphics\DirectGraphics.cpp">
       <Filter>ソース ファイル\Library\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Library\Library.cpp">
+      <Filter>ソース ファイル\Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Utility\Graphics.h">
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="Src\Library\Texture\WICTextureLoader.h">
       <Filter>ソース ファイル\Library\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Library\Library.h">
+      <Filter>ソース ファイル\Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 #include "VertexShader.h"
 
-namespace Library
+namespace Engine
 {
 	namespace Shader
 	{

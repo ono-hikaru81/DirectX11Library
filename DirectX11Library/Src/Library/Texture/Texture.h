@@ -7,7 +7,7 @@
 
 #include "../Shader/VertexShader.h"
 
-namespace Library
+namespace Engine
 {
 	/*
 	* @breif テクスチャを描画する為のクラス

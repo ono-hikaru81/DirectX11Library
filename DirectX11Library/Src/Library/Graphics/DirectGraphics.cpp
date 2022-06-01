@@ -10,7 +10,7 @@
 
 #pragma comment(lib, "d3d11.lib")
 
-namespace Library
+namespace Engine
 {
 	// 初期化
 	bool DirectGraphics::Initialize()
@@ -169,7 +169,7 @@ namespace Library
 	}
 
 	// テクスチャ読み込み
-	bool DirectGraphics::Loadtexture(const std::wstring fileName_)
+	bool DirectGraphics::LoadTexture(const std::wstring fileName_)
 	{
 		if (textureList.count(fileName_) > 0 && textureList[fileName_] != nullptr) return false;
 

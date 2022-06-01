@@ -5,7 +5,7 @@
 #include <Windows.h>
 
 
-namespace Library
+namespace Engine
 {
 	/**
 * @breif Windowを生成する為のクラス
@@ -28,22 +28,18 @@ namespace Library
 		* @param width_ : 横幅
 		* @param height_ : 縦幅
 		*/
-		Window(const char* p_Title_, unsigned int width_, unsigned int height_) :
-			p_Title(p_Title_),
-			width(width_),
-			height(height_)
-		{}
+		Window() = default;
 
 		/**
 		* @breif デストラクタ
 		*/
-		~Window() {}
+		~Window() = default;
 
 		/**
 		* @breif ウィンドウ生成
 		* @return trueが帰ってきたら作成
 		*/
-		bool Create();
+		bool Create(const char* p_Title_, unsigned int width_, unsigned int height_);
 
 	private:
 		/**

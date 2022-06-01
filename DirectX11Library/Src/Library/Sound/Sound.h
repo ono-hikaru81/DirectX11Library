@@ -4,7 +4,7 @@
 
 #include <dsound.h>
 
-namespace Library
+namespace Engine
 {
 	/*
 	* @breif サウンドを再生する為のクラス

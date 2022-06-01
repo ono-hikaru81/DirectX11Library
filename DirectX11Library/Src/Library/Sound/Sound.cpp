@@ -7,7 +7,7 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
 
-namespace Library
+namespace Engine
 {
 	// 初期化
 	bool Sound::Initialize()
