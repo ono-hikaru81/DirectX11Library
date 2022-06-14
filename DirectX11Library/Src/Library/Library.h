@@ -7,21 +7,23 @@
 #include "Graphics/DirectGraphics.h"
 #include "Input/Input.h"
 #include "Sound/Sound.h"
+#include "Model/ObjFile.h"
+#include "Shader/VertexShader.h"
 
 namespace Engine
 {
-	class Engine
+	class Library
 	{
 	public:
 		/*
 		* @brief コンストラクタ
 		*/
-		Engine() = default;
+		Library() = default;
 
 		/*
 		* @brief デストラクタ
 		*/
-		~Engine() = default;
+		~Library() = default;
 
 	public:
 		/*
@@ -172,13 +174,35 @@ namespace Engine
 		*/
 		static void StopSoundFile(Sound::File ID_) { p_Library->sound.StopFile(ID_); }
 
-	private:
-		static Engine* p_Library;
+		/*
+		* pbreif オブジェファイル読み込み
+		*/
+		static bool LoadObjFile(const char* fileName_) 
+		{ 
+			if (!p_Library->objFile.Load(fileName_, GetDirectGraphics()->GetDevice(), GetDirectGraphics()->GetVertexShader())) return false;
 
-		Window window;					//! ウィンドウクラス
-		DirectGraphics directGraphics;	//! ダイレクトグラフィックスクラス
-		Input input;					//! インプットクラス
-		Sound sound;					//! サウンドクラス
+			return true;
+		}
+
+		/*
+		* @breif オブジェファイル描画
+		*/
+		static void RenderObjFile(Utility::Vector pos_, Utility::Vector scale_, Utility::Vector degree_) 
+		{ 
+			p_Library->objFile.Render(GetDirectGraphics(), pos_, scale_, degree_);
+		}
+
+	private:
+		static DirectGraphics* GetDirectGraphics() { return &p_Library->directGraphics; }
+
+	private:
+		static Library* p_Library;
+
+		Window window {};					//! ウィンドウクラス
+		DirectGraphics directGraphics {};	//! ダイレクトグラフィックスクラス
+		Input input {};						//! インプットクラス
+		Sound sound {};						//! サウンドクラス
+		ObjFile objFile {};					//! オブジェファイルクラス
 	};
 }
 

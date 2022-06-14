@@ -16,8 +16,8 @@ namespace Utility
 		* @breif コンストラクタ
 		*/
 		Vector() : x(0), y(0), z(0) {}
-		Vector(const double& x_, const double& y_) : x(x_), y(y_), z(0) {}
-		Vector(const double &x_, const double& y_, const double& z_) : x(x_), y(y_), z(z_) {}
+		Vector(const float& x_, const float& y_) : x(x_), y(y_), z(0) {}
+		Vector(const float& x_, const float& y_, const float& z_) : x(x_), y(y_), z(z_) {}
 
 		/**
 		* @breif デストラクタ
@@ -28,14 +28,14 @@ namespace Utility
 		/**
 		* @breif アクセサ関数
 		*/
-		double GetX() const { return x; }
-		double GetY() const { return y; }
-		double GetZ() const { return z; }
+		float GetX() const { return x; }
+		float GetY() const { return y; }
+		float GetZ() const { return z; }
 
-		void Set(const double& x_, const double& y_, const double& z_) { x = x_; y = y_; z = z_; }
-		void SetX(const double& x_) { x = x_; }
-		void SetY(const double& y_) { y = y_; }
-		void SetZ(const double& z_) { z = z_; }
+		void Set(const float& x_, const float& y_, const float& z_) { x = x_; y = y_; z = z_; }
+		void SetX(const float& x_) { x = x_; }
+		void SetY(const float& y_) { y = y_; }
+		void SetZ(const float& z_) { z = z_; }
 
 	public:
 		//! 加算
@@ -69,13 +69,13 @@ namespace Utility
 			return *this;
 		}
 		//! 乗算
-		Vector operator*(const double& value_)
+		Vector operator*(const float& value_)
 		{
 			Vector vec { x * value_, y + value_ ,z + value_ };
 
 			return vec;
 		}
-		Vector& operator*=(const double& value_)
+		Vector& operator*=(const float& value_)
 		{
 			x *= value_;
 			y *= value_;
@@ -84,13 +84,13 @@ namespace Utility
 			return *this;
 		}
 		//! 除算
-		Vector operator/(const double& value_)
+		Vector operator/(const float& value_)
 		{
 			Vector vec { x / value_, y / value_ ,z / value_ };
 
 			return vec;
 		}
-		Vector& operator/=(const double& value_)
+		Vector& operator/=(const float& value_)
 		{
 			x /= value_;
 			y /= value_;
@@ -106,16 +106,16 @@ namespace Utility
 			return vec;
 		}
 		//! 内積
-		double operator%(const Vector& vec_)
+		float operator%(const Vector& vec_)
 		{
-			double inner{ (x * vec_.GetX()) + (y * vec_.GetY()) + (z * vec_.GetZ()) };
+			float inner{ (x * vec_.GetX()) + (y * vec_.GetY()) + (z * vec_.GetZ()) };
 
 			return inner;
 		}
 		//! ノルム
-		double Norm() const
+		float Norm() const
 		{
-			double norm{ sqrt((x * x) + (y * y) + (z * z)) };
+			float norm{ sqrt((x * x) + (y * y) + (z * z)) };
 
 			return norm;
 		}
@@ -131,9 +131,9 @@ namespace Utility
 
 	private:
 		//! ベクトル成分
-		double x;
-		double y;
-		double z;
+		float x;
+		float y;
+		float z;
 	};
 }
 

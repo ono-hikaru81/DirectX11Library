@@ -4,12 +4,12 @@
 
 namespace Engine
 {
-	Engine* Engine::p_Library = nullptr;
+	Library* Library::p_Library = nullptr;
 
 	// 初期化
-	bool Engine::Initialize(const char* p_Title_, unsigned int width_, unsigned int height_)
+	bool Library::Initialize(const char* p_Title_, unsigned int width_, unsigned int height_)
 	{
-		p_Library = new Engine();
+		p_Library = new Library();
 
 		// ウィンドウ作成
 		if (!p_Library->window.Create(p_Title_, width_, height_)) return false;
@@ -27,7 +27,7 @@ namespace Engine
 	}
 
 	// 解放
-	void Engine::Release()
+	void Library::Release()
 	{
 		p_Library->directGraphics.Release();
 		p_Library->input.Release();

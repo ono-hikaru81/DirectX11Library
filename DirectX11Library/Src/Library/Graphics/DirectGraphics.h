@@ -4,7 +4,9 @@
 
 #include <d3d11.h>
 #include <map>
+#include <memory>
 #include <string>
+#include <wrl.h>
 
 #include "../Shader/VertexShader.h"
 #include "../Shader/PixelShader.h"
@@ -32,13 +34,29 @@ namespace Engine
 		* @brief アクセサ関数
 		* @return デバイス
 		*/
-		ID3D11Device* GetDevice() { return p_Device; }
+		ID3D11Device* GetDevice() { return p_Device.Get(); }
+
+		/*
+		* @breif アクセサ関数
+		* @return デバイスコンテキスト
+		*/
+		ID3D11DeviceContext* GetDeviceContext() { return p_DeviceContext.Get(); }
 
 		/**
 		* @breif アクセサ関数
 		* @return 頂点シェーダ
 		*/
-		Shader::Vertex* GetVertexShader() { return p_VertexShader; }
+		Shader::Vertex* GetVertexShader() { return p_ObjFileVertexShader.get(); }
+
+		/*
+		* @breif アクセサ関数
+		* @return 
+		*/
+		ID3D11Buffer* GetObjFileConstantBuffer() { return p_ObjFileConstantBuffer; }
+
+		/*
+		*/
+		Utility::ObjFileConstantBuffer* GetObjFileConstantBufferData() { return &objFileConstantBufferData; }
 
 	public:
 		/**
@@ -61,6 +79,10 @@ namespace Engine
 		* @breif 描画終了
 		*/
 		void FinishRendering();
+
+		void SetUpTransform();
+
+		void SetUpDeviceContext();
 
 		/**
 		* @breif ポリゴン描画
@@ -138,6 +160,12 @@ namespace Engine
 		*/
 		bool CreateConstantBuffer();
 
+		/*
+		* @breif ObjFile用ConstantBufferの作成関数
+		* @return trueなら作成
+		*/
+		bool CreateObjFileConstantBuffer();
+
 		/**
 		* @breif シェーダの作成関数
 		* @return trueなら作成
@@ -151,27 +179,31 @@ namespace Engine
 		void SetUpViewPort();
 
 	private:
-		ID3D11Device* p_Device;						//! Device
-		ID3D11DeviceContext* p_DeviceContext;		//! DeviceContext
-		IDXGISwapChain* p_SwapChain;				//! SwapChain
-		ID3D11RenderTargetView* p_RenderTargetView; //! RenderTargetView
-		ID3D11Texture2D* p_DepthStencilTexture;		//! DepthStencilView
-		ID3D11DepthStencilView* p_DepthStencilView; //! DepthStencilView
-		ID3D11Buffer* p_ConstantBuffer;				//! Buffer
-		D3D11_VIEWPORT viewport;					//! ViewPort
-		ID3D11SamplerState* p_SamplerState;			//! SamplerState
+		Microsoft::WRL::ComPtr<ID3D11Device> p_Device { nullptr };					//! Device
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> p_DeviceContext { nullptr };	//! DeviceContext
+		Microsoft::WRL::ComPtr<IDXGISwapChain> p_SwapChain { nullptr };				//! SwapChain
+		ID3D11RenderTargetView* p_RenderTargetView { nullptr };						//! RenderTargetView
+		ID3D11Texture2D* p_DepthStencilTexture { nullptr };							//! DepthStencilView
+		ID3D11DepthStencilView* p_DepthStencilView { nullptr };						//! DepthStencilView
+		D3D11_VIEWPORT viewPort {};													//! ViewPort
+		ID3D11SamplerState* p_SamplerState { nullptr };								//! SamplerState
 
-		Utility::ConstantBuffer constantBufferData; //! ConstantBuffer
+		Shader::Vertex* p_2DPorigonVertexShader { nullptr };	//! 2Dポリゴン用頂点シェーダ
+		Shader::Pixcel* p_2DPorigonPixelShader { nullptr };		//! 2Dポリゴン用ピクセルシェーダ
+		ID3D11Buffer* p_ConstantBuffer{ nullptr };				//! 定数Buffer
+		Utility::ConstantBuffer constantBufferData {};			//! ConstantBuffer
+		PolygonData* p_Porigon { nullptr };						//! 三角形のデータ
+		PolygonData* p_Rect { nullptr };						//! 矩形のデータ
 
-		Shader::Vertex* p_VertexShader;	//! 頂点シェーダ
-		Shader::Pixcel* p_PixelShader;	//! ピクセルシェーダ
-		PolygonData* p_Porigon;	//! 三角形のデータ
-		PolygonData* p_Rect;	//! 矩形のデータ
+		Shader::Vertex* p_TextureVertexShader { nullptr };					//! テクスチャ用頂点シェーダ
+		Shader::Pixcel* p_TexturePixelShader { nullptr };					//! テクスチャ用ピクセルシェーダ
+		Texture* p_Texture { nullptr };										//! テクスチャ管理
+		std::map<std::wstring, ID3D11ShaderResourceView*> textureList {};	//! テクスチャリスト
 
-		Shader::Vertex* p_TextureVertexShader;	//! テクスチャの頂点シェーダ
-		Shader::Pixcel* p_TexturePixelShader;	//! テクスチャんｐピクセルシェーダ
-		Texture* p_Texture;	//! テクスチャ管理
-		std::map<std::wstring, ID3D11ShaderResourceView*> textureList{};
+		std::unique_ptr<Shader::Vertex> p_ObjFileVertexShader { nullptr };	//! オブジェファイル用頂点シェーダ
+		Shader::Pixcel* p_ObjFilePixelShader { nullptr };					//! オブジェファイル用ピクセルシェーダ
+		ID3D11Buffer* p_ObjFileConstantBuffer{ nullptr };					//! オブジェファイル用定数バッファ
+		Utility::ObjFileConstantBuffer objFileConstantBufferData {};		//! オブジェファイル用定数バッファデータ
 	};
 };
 

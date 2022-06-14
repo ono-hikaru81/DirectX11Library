@@ -2,6 +2,7 @@
 #include "DirectGraphics.h"
 
 #include <stdio.h>
+#include <DirectXMath.h>
 
 #include "../Shader/ShaderBase.h"
 #include "../../Utility/Graphics.h"
@@ -23,18 +24,23 @@ namespace Engine
 
 		if (!CreateConstantBuffer()) return false;
 
-		SetUpViewPort();
+		if (!CreateObjFileConstantBuffer()) return false;
 
 		if (!CreateShader()) return false;
 
+		SetUpViewPort();
+
+		// 変換行列設定
+		SetUpTransform();
+
 		p_Porigon = new PolygonData();
-		if (!p_Porigon->CreatePorigon(p_Device, p_VertexShader)) return false;
+		if (!p_Porigon->CreatePorigon(p_Device.Get(), p_2DPorigonVertexShader)) return false;
 
 		p_Rect = new PolygonData();
-		if (!p_Rect->CreateRect(p_Device, p_VertexShader)) return false;
+		if (!p_Rect->CreateRect(p_Device.Get(), p_2DPorigonVertexShader)) return false;
 
 		p_Texture = new Texture();
-		if (!p_Texture->CreatePorigonModel(p_Device, p_TextureVertexShader)) return false;
+		if (!p_Texture->CreatePorigonModel(p_Device.Get(), p_TextureVertexShader)) return false;
 
 		return true;
 	}
@@ -78,6 +84,46 @@ namespace Engine
 		p_SwapChain->Present(0, 0);
 	}
 
+	void DirectGraphics::SetUpTransform()
+	{
+		HWND windowHandle = FindWindow(Window::p_ClassName, nullptr);
+		RECT rect{};
+		GetClientRect(windowHandle, &rect);
+
+		// Viewマトリクス設定
+		DirectX::XMVECTOR eye = DirectX::XMVectorSet(0.0f, 0.0f, -50.0f, 0.0f);
+		DirectX::XMVECTOR focus = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+		DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		DirectX::XMMATRIX viewMatrix = DirectX::XMMatrixLookAtLH(eye, focus, up);
+
+		// プロジェクションマトリクス設定
+		constexpr float fov = DirectX::XMConvertToRadians(45.0f);
+		float aspect = static_cast<float>(rect.right - rect.left) / (rect.bottom - rect.top);
+		float nearZ = 0.1f;
+		float farZ = 100.0f;
+		DirectX::XMMATRIX projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, aspect, nearZ, farZ);
+
+		// ライトの設定
+		DirectX::XMVECTOR light = DirectX::XMVector3Normalize(DirectX::XMVectorSet(0.0f, 0.5f, -1.0f, 0.0f));
+
+		// コンスタントバッファの設定
+		XMStoreFloat4x4(&objFileConstantBufferData.view, XMMatrixTranspose(viewMatrix));
+		XMStoreFloat4x4(&objFileConstantBufferData.projection, XMMatrixTranspose(projectionMatrix));
+		XMStoreFloat4(&objFileConstantBufferData.lightVector, light);
+
+		// ライトのカラー設定
+		objFileConstantBufferData.lightColor = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	void DirectGraphics::SetUpDeviceContext()
+	{
+		// プリミティブの形状を指定
+		p_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		p_DeviceContext->VSSetShader(p_ObjFileVertexShader->GetShaderInterface(), nullptr, 0);
+		p_DeviceContext->PSSetShader(p_ObjFilePixelShader->GetShaderInterface(), nullptr, 0);
+		p_DeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_DepthStencilView);
+	}
+
 	// ポリゴン描画
 	void DirectGraphics::DrawPorigon(float posX_, float posY_, float width_, float height_, float angle_)
 	{
@@ -95,9 +141,9 @@ namespace Engine
 		// プリミティブ型の設定
 		p_DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		// 頂点シェーダの設定
-		p_DeviceContext->VSSetShader(p_VertexShader->GetShaderInterface(), NULL, 0);
+		p_DeviceContext->VSSetShader(p_2DPorigonVertexShader->GetShaderInterface(), NULL, 0);
 		// ピクセルシェーダの設定
-		p_DeviceContext->PSSetShader(p_PixelShader->GetShaderInterface(), NULL, 0);
+		p_DeviceContext->PSSetShader(p_2DPorigonPixelShader->GetShaderInterface(), NULL, 0);
 		// 出力先の設定
 		p_DeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_DepthStencilView);
 
@@ -110,15 +156,13 @@ namespace Engine
 
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
-		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
+		constantBufferData.viewPort = DirectX::XMFLOAT4(viewPort.Width, viewPort.Height, 0.0f, 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
 
-		ID3D11Buffer* p_TempConstantBuffer = p_ConstantBuffer;
-
 		// コンスタントバッファを設定
-		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
+		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_ConstantBuffer);
 		// インデックスバッファによる描画
 		p_DeviceContext->DrawIndexed(3, 0, 0);
 	}
@@ -140,9 +184,9 @@ namespace Engine
 		// プリミティブ型の設定
 		p_DeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		// 頂点シェーダの設定
-		p_DeviceContext->VSSetShader(p_VertexShader->GetShaderInterface(), NULL, 0);
+		p_DeviceContext->VSSetShader(p_2DPorigonVertexShader->GetShaderInterface(), NULL, 0);
 		// ピクセルシェーダの設定
-		p_DeviceContext->PSSetShader(p_PixelShader->GetShaderInterface(), NULL, 0);
+		p_DeviceContext->PSSetShader(p_2DPorigonPixelShader->GetShaderInterface(), NULL, 0);
 		// 出力先の設定
 		p_DeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_DepthStencilView);
 
@@ -155,15 +199,13 @@ namespace Engine
 
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
-		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
+		constantBufferData.viewPort = DirectX::XMFLOAT4(viewPort.Width, viewPort.Height, 0.0f, 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
 
-		ID3D11Buffer* p_TempConstantBuffer = p_ConstantBuffer;
-
 		// コンスタントバッファを設定
-		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
+		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_ConstantBuffer);
 		// インデックスバッファによる描画
 		p_DeviceContext->DrawIndexed(4, 0, 0);
 	}
@@ -173,7 +215,7 @@ namespace Engine
 	{
 		if (textureList.count(fileName_) > 0 && textureList[fileName_] != nullptr) return false;
 
-		if (FAILED(DirectX::CreateWICTextureFromFile(p_Device, fileName_.c_str(), nullptr, &textureList[fileName_]))) return false;
+		if (FAILED(DirectX::CreateWICTextureFromFile(p_Device.Get(), fileName_.c_str(), nullptr, &textureList[fileName_]))) return false;
 
 		return true;
 	}
@@ -237,15 +279,13 @@ namespace Engine
 
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
-		constantBufferData.viewport = DirectX::XMFLOAT4(viewport.Width, viewport.Height, 0.0f, 1.0f);
+		constantBufferData.viewPort = DirectX::XMFLOAT4(viewPort.Width, viewPort.Height, 0.0f, 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer, 0, NULL, &constantBufferData, 0, 0);
 
-		ID3D11Buffer* p_TempConstantBuffer = p_ConstantBuffer;
-
 		// コンスタントバッファを設定
-		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_TempConstantBuffer);
+		p_DeviceContext->VSSetConstantBuffers(0, 1, &p_ConstantBuffer);
 
 		// 描画
 		p_DeviceContext->DrawIndexed(4, 0, 0);
@@ -376,20 +416,43 @@ namespace Engine
 		return true;
 	}
 
+	bool DirectGraphics::CreateObjFileConstantBuffer()
+	{
+		D3D11_BUFFER_DESC constantBufferDesc
+		{
+			.ByteWidth = sizeof(Utility::ObjFileConstantBuffer),
+			.Usage = D3D11_USAGE_DEFAULT,
+			.BindFlags = D3D11_BIND_CONSTANT_BUFFER,
+			.CPUAccessFlags = 0,
+			.MiscFlags = 0,
+			.StructureByteStride = sizeof(Utility::ObjFileConstantBuffer)
+		};
+
+		if (FAILED(p_Device.Get()->CreateBuffer(&constantBufferDesc, nullptr, &p_ObjFileConstantBuffer))) return false;
+
+		return true;
+	}
+
 	// シェーダの作成
 	bool DirectGraphics::CreateShader()
 	{
-		p_VertexShader = new Shader::Vertex();
-		if (!p_VertexShader->Create(p_Device, "Res/Shader/2DPolygonVertexShader.cso")) return false;
+		p_2DPorigonVertexShader = new Shader::Vertex();
+		if (!p_2DPorigonVertexShader->Create(p_Device.Get(), "Res/Shader/2DPolygonVertexShader.cso")) return false;
 
-		p_PixelShader = new Shader::Pixcel();
-		if (!p_PixelShader->Create(p_Device, "Res/Shader/2DPolygonPixelShader.cso")) return false;
+		p_2DPorigonPixelShader = new Shader::Pixcel();
+		if (!p_2DPorigonPixelShader->Create(p_Device.Get(), "Res/Shader/2DPolygonPixelShader.cso")) return false;
 
 		p_TextureVertexShader = new Shader::Vertex();
-		if (!p_TextureVertexShader->Create(p_Device, "Res/Shader/TextureVertexShader.cso")) return false;
+		if (!p_TextureVertexShader->Create(p_Device.Get(), "Res/Shader/TextureVertexShader.cso")) return false;
 
 		p_TexturePixelShader = new Shader::Pixcel();
-		if (!p_TexturePixelShader->Create(p_Device, "Res/Shader/TexturePixelShader.cso")) return false;
+		if (!p_TexturePixelShader->Create(p_Device.Get(), "Res/Shader/TexturePixelShader.cso")) return false;
+
+		p_ObjFileVertexShader = std::make_unique<Shader::Vertex>();
+		if (!p_ObjFileVertexShader->Create(p_Device.Get(), "Res/Shader/ObjFileVertexShader.cso")) return false;
+
+		p_ObjFilePixelShader = new Shader::Pixcel();
+		if (!p_ObjFilePixelShader->Create(p_Device.Get(), "Res/Shader/ObjFilePixelShader.cso")) return false;
 
 		return true;
 	}
@@ -402,7 +465,7 @@ namespace Engine
 		GetClientRect(windowHandle, &rect);
 
 		// ビューポートの設定
-		viewport =
+		viewPort =
 		{
 			.TopLeftX = 0,	// 左上X座標
 			.TopLeftY = 0,	// 左上Y座標
@@ -414,6 +477,6 @@ namespace Engine
 		
 		// 設定するビューポートの数
 		// 設定するビューポート情報のポインタ
-		p_DeviceContext->RSSetViewports(1, &viewport);
+		p_DeviceContext->RSSetViewports(1, &viewPort);
 	}
 };
