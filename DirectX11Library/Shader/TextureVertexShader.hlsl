@@ -1,23 +1,25 @@
 
 cbuffer ConstantBuffer
 {
-	float4x4 worldMatrix;
-	float4 viewPort;
+	float4x4 worldMatrix;	// ワールド変換行列
+	float4 viewPort;		// ビューポート
 }
 
+// VertexShaderに送られてくるデータ構造
 struct VSInput
 {
-	float4 pos : POSITION;
-	float2 UV : TEXCOORD; // テクスチャのUV値
+	float4 pos : POSITION;	// 座標
+	float2 UV : TEXCOORD;	// テクスチャのUV値
 };
 
+// VertexShaderから出力するデータ構造
 struct VSOutput
 {
 	float4 pos : SV_POSITION;
 	float2 UV : TEXCOORD0; // テクスチャのUV値
 };
 
-VSOutput vs_main(VSInput input)
+VSOutput main(VSInput input)
 {
 	VSOutput output;
 

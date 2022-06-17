@@ -5,8 +5,9 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include <dinput.h>
 #include <array>
+#include <dinput.h>
+#include <wrl.h>
 
 namespace Engine
 {
@@ -57,7 +58,7 @@ namespace Engine
 		/**
 		* @breif キーの押下状態更新
 		*/
-		KeyStatus UpdateKeyStatus(bool isPush_, KeyStatus state_);
+		KeyStatus UpdateKeyStatus(const bool& isPush_, const KeyStatus& state_);
 
 	public:
 		/**
@@ -65,25 +66,24 @@ namespace Engine
 		* @param key_ : 判定するキー
 		* @return trueならキーを押し続けている
 		*/
-		bool IsKeyHeld(int key_);
+		bool IsKeyHeld(const int& key_);
 		/**
 		* @breif キーを押した瞬間
 		* @param key_ : 判定するキー
 		* @return trueならキーを押した瞬間
 		*/
-		bool IsKeyPushed(int key_);
+		bool IsKeyPushed(const int& key_);
 		/**
 		* @breif キーを離した
 		* @param key_ : 判定するキー
 		* @return trueならキーを離している
 		*/
-		bool IsKeyReleased(int key_);
+		bool IsKeyReleased(const int& key_);
 
 	private:
-		IDirectInput8* p_DirectInput { 0 };				//! インターフェース
-		IDirectInputDevice8* p_KeyboardDevice { 0 };	//! キーボードデバイス
+		Microsoft::WRL::ComPtr<IDirectInput8> p_DirectInput { nullptr };			//! DirectInput
+		Microsoft::WRL::ComPtr<IDirectInputDevice8> p_KeyboardDevice { nullptr };	//! キーボードデバイス
 
-	private:
 		bool isPushKey { false };			//! キーが押されているか
 		KeyStatus keyStatus[KEY_MAX] {};	//! キー毎の状態を確認する為の配列
 	};
