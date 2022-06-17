@@ -17,7 +17,7 @@ namespace Engine
 		};
 
 		// 頂点データ作成
-		Utility::Vertex vertexList[] =
+		Utility::Porigon2D::Vertex vertexList[] =
 		{
 			{ { -0.5f,  0.5f, 0.0f, 1.0f}, { 1.0f, 0.0f, 0.0f, 1.0f } },
 			{ {  0.5f, -0.5f, 0.0f, 1.0f}, { 0.0f, 1.0f, 0.0f, 1.0f } },
@@ -33,12 +33,12 @@ namespace Engine
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			.ByteWidth = sizeof(Utility::Vertex) * 3,
+			.ByteWidth = sizeof(Utility::Porigon2D::Vertex) * 3,
 			.Usage = D3D11_USAGE_DEFAULT,
 			.BindFlags = D3D11_BIND_VERTEX_BUFFER,
 			.CPUAccessFlags = 0,
 			.MiscFlags = 0,
-			.StructureByteStride = sizeof(Utility::Vertex)
+			.StructureByteStride = sizeof(Utility::Porigon2D::Vertex)
 		};
 
 		// 頂点バッファの初期データ
@@ -50,7 +50,7 @@ namespace Engine
 		};
 
 		// バッファ作成
-		if (FAILED(p_Device_->CreateBuffer(&vertexBufferDesc, &vertexInitData, &p_VertexBuffer))) return false;
+		if (FAILED(p_Device_->CreateBuffer(&vertexBufferDesc, &vertexInitData, p_VertexBuffer.GetAddressOf()))) return false;
 
 		// インデックスバッファ作成
 		D3D11_BUFFER_DESC indexBufferDesc
@@ -72,10 +72,10 @@ namespace Engine
 		};
 
 		// バッファ作成
-		if (FAILED(p_Device_->CreateBuffer(&indexBufferDesc, &indexInitData, &p_IndexBuffer))) return false;
+		if (FAILED(p_Device_->CreateBuffer(&indexBufferDesc, &indexInitData, p_IndexBuffer.GetAddressOf()))) return false;
 
 		// 入力レイアウト作成
-		if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), &p_InputLayout))) return false;
+		if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), p_InputLayout.GetAddressOf()))) return false;
 
 		return true;
 	}
@@ -91,7 +91,7 @@ namespace Engine
 		};
 
 		// 頂点データ作成
-		Utility::Vertex vertexList[]
+		Utility::Porigon2D::Vertex vertexList[]
 		{
 			{ { -0.5f,  0.5f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
 			{ {  0.5f,  0.5f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
@@ -109,12 +109,12 @@ namespace Engine
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC vertexBufferDesc
 		{
-			.ByteWidth = sizeof(Utility::Vertex) * 4,
+			.ByteWidth = sizeof(Utility::Porigon2D::Vertex) * 4,
 			.Usage = D3D11_USAGE_DEFAULT,
 			.BindFlags = D3D11_BIND_VERTEX_BUFFER,
 			.CPUAccessFlags = 0,
 			.MiscFlags = 0,
-			.StructureByteStride = sizeof(Utility::Vertex)
+			.StructureByteStride = sizeof(Utility::Porigon2D::Vertex)
 		};
 
 		// 頂点バッファの初期データ
@@ -126,7 +126,7 @@ namespace Engine
 		};
 
 		// バッファ作成
-		if (FAILED(p_Device_->CreateBuffer(&vertexBufferDesc, &vertexInitDesc, &p_VertexBuffer))) return false;
+		if (FAILED(p_Device_->CreateBuffer(&vertexBufferDesc, &vertexInitDesc, p_VertexBuffer.GetAddressOf()))) return false;
 
 		// インデックスバッファ作成
 		D3D11_BUFFER_DESC indexBufferDesc
@@ -148,10 +148,10 @@ namespace Engine
 		};
 
 		// バッファ作成
-		if (FAILED(p_Device_->CreateBuffer(&indexBufferDesc, &indexInitData, &p_IndexBuffer))) return false;
+		if (FAILED(p_Device_->CreateBuffer(&indexBufferDesc, &indexInitData, p_IndexBuffer.GetAddressOf()))) return false;
 
 		// 頂点レイアウト作成
-		if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), &p_InputLayout))) return false;
+		if (FAILED(p_Device_->CreateInputLayout(vertexDesc, ARRAYSIZE(vertexDesc), p_VertexShader_->GetData(), p_VertexShader_->GetSize(), p_InputLayout.GetAddressOf()))) return false;
 
 		return true;
 	}

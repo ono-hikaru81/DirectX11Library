@@ -5,8 +5,9 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include <dinput.h>
 #include <array>
+#include <dinput.h>
+#include <wrl.h>
 
 namespace Engine
 {
@@ -80,8 +81,8 @@ namespace Engine
 		bool IsKeyReleased(int key_);
 
 	private:
-		IDirectInput8* p_DirectInput { 0 };				//! インターフェース
-		IDirectInputDevice8* p_KeyboardDevice { 0 };	//! キーボードデバイス
+		Microsoft::WRL::ComPtr<IDirectInput8> p_DirectInput { nullptr };				//! DirectInput
+		Microsoft::WRL::ComPtr<IDirectInputDevice8> p_KeyboardDevice { nullptr };		//! キーボードデバイス
 
 	private:
 		bool isPushKey { false };			//! キーが押されているか

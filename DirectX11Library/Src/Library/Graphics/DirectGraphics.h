@@ -52,11 +52,11 @@ namespace Engine
 		* @breif アクセサ関数
 		* @return 
 		*/
-		ID3D11Buffer* GetObjFileConstantBuffer() { return p_ObjFileConstantBuffer; }
+		ID3D11Buffer* GetObjFileConstantBuffer() { return p_ObjFileConstantBuffer.Get(); }
 
 		/*
 		*/
-		Utility::ObjFileConstantBuffer* GetObjFileConstantBufferData() { return &objFileConstantBufferData; }
+		Utility::ObjFile::ConstantBuffer* GetObjFileConstantBufferData() { return &objFileConstantBufferData; }
 
 	public:
 		/**
@@ -179,31 +179,31 @@ namespace Engine
 		void SetUpViewPort();
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Device> p_Device { nullptr };					//! Device
-		Microsoft::WRL::ComPtr<ID3D11DeviceContext> p_DeviceContext { nullptr };	//! DeviceContext
-		Microsoft::WRL::ComPtr<IDXGISwapChain> p_SwapChain { nullptr };				//! SwapChain
-		ID3D11RenderTargetView* p_RenderTargetView { nullptr };						//! RenderTargetView
-		ID3D11Texture2D* p_DepthStencilTexture { nullptr };							//! DepthStencilView
-		ID3D11DepthStencilView* p_DepthStencilView { nullptr };						//! DepthStencilView
-		D3D11_VIEWPORT viewPort {};													//! ViewPort
-		ID3D11SamplerState* p_SamplerState { nullptr };								//! SamplerState
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> p_DepthStencilTexture{ nullptr };		//! DepthStencilView
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> p_DepthStencilView{ nullptr };	//! DepthStencilView
+		Microsoft::WRL::ComPtr<ID3D11Device> p_Device { nullptr };						//! Device
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> p_DeviceContext { nullptr };		//! DeviceContext
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> p_RenderTargetView{ nullptr };	//! RenderTargetView
+		Microsoft::WRL::ComPtr<IDXGISwapChain> p_SwapChain { nullptr };					//! SwapChain
+		Microsoft::WRL::ComPtr<ID3D11SamplerState> p_SamplerState{ nullptr };			//! SamplerState
+		D3D11_VIEWPORT viewPort {};														//! ViewPort
 
-		Shader::Vertex* p_2DPorigonVertexShader { nullptr };	//! 2Dポリゴン用頂点シェーダ
-		Shader::Pixcel* p_2DPorigonPixelShader { nullptr };		//! 2Dポリゴン用ピクセルシェーダ
-		ID3D11Buffer* p_ConstantBuffer{ nullptr };				//! 定数Buffer
-		Utility::ConstantBuffer constantBufferData {};			//! ConstantBuffer
-		PolygonData* p_Porigon { nullptr };						//! 三角形のデータ
-		PolygonData* p_Rect { nullptr };						//! 矩形のデータ
+		std::unique_ptr<Shader::Vertex> p_2DPorigonVertexShader { nullptr };		//! 2Dポリゴン用頂点シェーダ
+		std::unique_ptr<Shader::Pixcel> p_2DPorigonPixelShader { nullptr };			//! 2Dポリゴン用ピクセルシェーダ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> p_ConstantBuffer{ nullptr };			//! 定数Buffer
+		Utility::Porigon2D::ConstantBuffer constantBufferData {};					//! 定数バッファ
+		std::unique_ptr<PolygonData> p_Porigon { nullptr };							//! 三角形のデータ
+		std::unique_ptr<PolygonData> p_Rect { nullptr };							//! 矩形のデータ
 
-		Shader::Vertex* p_TextureVertexShader { nullptr };					//! テクスチャ用頂点シェーダ
-		Shader::Pixcel* p_TexturePixelShader { nullptr };					//! テクスチャ用ピクセルシェーダ
-		Texture* p_Texture { nullptr };										//! テクスチャ管理
+		std::unique_ptr<Shader::Vertex> p_TextureVertexShader { nullptr };	//! テクスチャ用頂点シェーダ
+		std::unique_ptr<Shader::Pixcel> p_TexturePixelShader { nullptr };	//! テクスチャ用ピクセルシェーダ
+		std::unique_ptr<Texture> p_Texture { nullptr };						//! テクスチャ管理
 		std::map<std::wstring, ID3D11ShaderResourceView*> textureList {};	//! テクスチャリスト
 
-		std::unique_ptr<Shader::Vertex> p_ObjFileVertexShader { nullptr };	//! オブジェファイル用頂点シェーダ
-		Shader::Pixcel* p_ObjFilePixelShader { nullptr };					//! オブジェファイル用ピクセルシェーダ
-		ID3D11Buffer* p_ObjFileConstantBuffer{ nullptr };					//! オブジェファイル用定数バッファ
-		Utility::ObjFileConstantBuffer objFileConstantBufferData {};		//! オブジェファイル用定数バッファデータ
+		std::unique_ptr<Shader::Vertex> p_ObjFileVertexShader { nullptr };			//! ObjFile用頂点シェーダ
+		std::unique_ptr<Shader::Pixcel> p_ObjFilePixelShader { nullptr };			//! ObjFile用ピクセルシェーダ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> p_ObjFileConstantBuffer { nullptr };	//! ObjFile用定数バッファ
+		Utility::ObjFile::ConstantBuffer objFileConstantBufferData {};				//! ObjFile用定数バッファデータ
 	};
 };
 

@@ -9,23 +9,23 @@ namespace Engine
 	{
 		// DirectInputインターフェースの初期化
 		// DirectInputオブジェクトを取得すると他の入力デバイスを初期化することができる
-		HRESULT hr =  DirectInput8Create(GetModuleHandle(nullptr), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&p_DirectInput, nullptr);
+		HRESULT hr { DirectInput8Create(GetModuleHandle(nullptr), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)p_DirectInput.GetAddressOf(), nullptr) };
 		if (FAILED(hr)) return false;
 
 		// キーボードのインタフェースを初期化
-		hr = p_DirectInput->CreateDevice(GUID_SysKeyboard, &p_KeyboardDevice, nullptr);
+		hr = p_DirectInput.Get()->CreateDevice(GUID_SysKeyboard, p_KeyboardDevice.GetAddressOf(), nullptr);
 		if (FAILED(hr)) return false;
 
 		// キーボードのデータフォーマットの設定
-		hr = p_KeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
+		hr = p_KeyboardDevice.Get()->SetDataFormat(&c_dfDIKeyboard);
 		if (FAILED(hr)) return false;
 
 		// キーボードの協調レベルを他プログラムと共有しないように設定
-		hr = p_KeyboardDevice->SetCooperativeLevel(FindWindow(TEXT("WindowClass"), nullptr), DISCL_FOREGROUND | DISCL_EXCLUSIVE);
+		hr = p_KeyboardDevice.Get()->SetCooperativeLevel(FindWindow(TEXT("WindowClass"), nullptr), DISCL_FOREGROUND | DISCL_EXCLUSIVE);
 		if (FAILED(hr)) return false;
 
 		// キーボードを取得
-		hr = p_KeyboardDevice->Acquire();
+		hr = p_KeyboardDevice.Get()->Acquire();
 		if (FAILED(hr)) return false;
 
 		return true;
@@ -34,8 +34,8 @@ namespace Engine
 	// 入力状態更新
 	void Input::Update()
 	{
-		BYTE tmpKeyStatus[KEY_MAX]{};
-		HRESULT hr = p_KeyboardDevice->GetDeviceState(KEY_MAX, tmpKeyStatus);
+		BYTE tmpKeyStatus[KEY_MAX] {};
+		HRESULT hr { p_KeyboardDevice.Get()->GetDeviceState(KEY_MAX, tmpKeyStatus) };
 
 		if (SUCCEEDED(hr))
 		{
@@ -56,20 +56,11 @@ namespace Engine
 	// 解放
 	void Input::Release()
 	{
-		// キーボード解放
-		if (p_KeyboardDevice)
-		{
-			p_KeyboardDevice->Unacquire();
-			p_KeyboardDevice->Release();
-			p_KeyboardDevice = nullptr;
-		}
-
 		// DirectInput解放
-		if (p_DirectInput)
-		{
-			p_DirectInput->Release();
-			p_DirectInput = nullptr;
-		}
+		p_DirectInput.Reset();
+
+		// キーボード解放
+		p_KeyboardDevice.Reset();
 	}
 
 	// キーの押下状態更新

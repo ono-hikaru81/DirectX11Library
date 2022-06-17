@@ -46,9 +46,6 @@
     <ClCompile Include="Src\Library\Shader\PixelShader.cpp">
       <Filter>ソース ファイル\Library\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Library\Shader\ShaderBase.cpp">
-      <Filter>ソース ファイル\Library\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Library\Shader\VertexShader.cpp">
       <Filter>ソース ファイル\Library\Shader</Filter>
     </ClCompile>
@@ -94,9 +91,6 @@
       <Filter>ソース ファイル\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Src\Library\Shader\PixelShader.h">
-      <Filter>ソース ファイル\Library\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Library\Shader\ShaderBase.h">
       <Filter>ソース ファイル\Library\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Src\Library\Shader\VertexShader.h">
