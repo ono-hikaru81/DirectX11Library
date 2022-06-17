@@ -3,7 +3,7 @@
 
 namespace Engine
 {
-	const char* Window::p_ClassName = "WindowClass";
+	const std::string Window::p_ClassName { "WindowClass" };
 
 	// ウィンドウプロシージャ
 	LRESULT CALLBACK Window::WindowProcedure(HWND windowHandle_, UINT messageID_, WPARAM wParam_, LPARAM lParam_)
@@ -22,7 +22,7 @@ namespace Engine
 	}
 
 	// ウィンドウ作成
-	bool Window::Create(const char* p_Title_, unsigned int width_, unsigned int height_)
+	bool Window::Create(const std::string p_Title_, unsigned int width_, unsigned int height_)
 	{
 		p_Title = p_Title_;
 		width = width_;
@@ -31,8 +31,8 @@ namespace Engine
 		if (!RegisterWindowClass()) return 0;
 
 		HWND windowHandle = CreateWindow(
-			Window::p_ClassName,
-			p_Title,
+			Window::p_ClassName.c_str(),
+			p_Title.c_str(),
 			(WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME) | WS_VISIBLE,
 			CW_USEDEFAULT,
 			0,
@@ -64,11 +64,11 @@ namespace Engine
 			0,
 			0,
 			GetModuleHandle(NULL),
-			LoadIcon(NULL, MAKEINTRESOURCE(IDI_APPLICATION)),
+			LoadIcon(NULL, IDI_APPLICATION),
 			LoadCursor(NULL, IDC_ARROW),
 			NULL,
 			NULL,
-			Window::p_ClassName,
+			Window::p_ClassName.c_str(),
 			NULL
 		};
 
@@ -80,14 +80,14 @@ namespace Engine
 	// ウィンドウのサイズ調整
 	void Window::ResizeWindow(HWND windowHandle_)
 	{
-		RECT windowRect;
-		RECT clientRect;
+		RECT windowRect {};
+		RECT clientRect {};
 
 		GetWindowRect(windowHandle_, &windowRect);
 		GetClientRect(windowHandle_, &clientRect);
 
-		int frameSizeX = (windowRect.right - windowRect.left) - (clientRect.right - clientRect.left);
-		int frameSizeY = (windowRect.bottom - windowRect.top) - (clientRect.bottom - clientRect.top);
+		int frameSizeX { (windowRect.right - windowRect.left) - (clientRect.right - clientRect.left) };
+		int frameSizeY { (windowRect.bottom - windowRect.top) - (clientRect.bottom - clientRect.top) };
 
 		SetWindowPos(windowHandle_, NULL, CW_USEDEFAULT, 0, frameSizeX + width, frameSizeY + height, SWP_NOMOVE);
 	}

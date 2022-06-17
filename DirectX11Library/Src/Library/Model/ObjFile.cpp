@@ -7,7 +7,7 @@
 
 namespace Engine
 {
-	bool ObjFile::Load(const char* p_FileName_, ID3D11Device* p_Device_, Shader::Vertex* p_VertexShader_)
+	bool ObjFile::Load(const std::string p_FileName_, ID3D11Device* p_Device_, Shader::Vertex* p_VertexShader_)
 	{
 		if (!CreateMesh(p_FileName_)) return false;
 
@@ -24,7 +24,7 @@ namespace Engine
 	{
 		p_Graphics_->SetUpDeviceContext();
 		ID3D11Buffer* constantBuffer = p_Graphics_->GetObjFileConstantBuffer();
-		UINT strides = sizeof(Utility::CustomVertex);
+		UINT strides = sizeof(Utility::ObjFile::Vertex);
 		UINT offsets = 0;
 
 		// ワールド行列設定
@@ -51,11 +51,11 @@ namespace Engine
 		p_Graphics_->GetDeviceContext()->DrawIndexed(static_cast<UINT>(indexes.size()), 0, 0);
 	}
 
-	bool ObjFile::CreateMesh(const char* p_FileName_)
+	bool ObjFile::CreateMesh(const std::string p_FileName_)
 	{
 		FILE* p_File = nullptr;
 
-		fopen_s(&p_File, p_FileName_, "r");
+		fopen_s(&p_File, p_FileName_.c_str(), "r");
 
 		if (p_File == nullptr) return false;
 
@@ -113,7 +113,7 @@ namespace Engine
 		// 頂点バッファ作成
 		D3D11_BUFFER_DESC bufferDesc
 		{
-			.ByteWidth = sizeof(Utility::CustomVertex) * static_cast<UINT>(verticesBuffer.size()),	// バッファサイズ
+			.ByteWidth = sizeof(Utility::ObjFile::Vertex) * static_cast<UINT>(verticesBuffer.size()),	// バッファサイズ
 			.Usage = D3D11_USAGE_DEFAULT,			// 使用方法
 			.BindFlags = D3D11_BIND_VERTEX_BUFFER,	// BIND設定
 			.CPUAccessFlags = 0,					// リソースへのCPUのアクセス権限についての設定
@@ -149,7 +149,7 @@ namespace Engine
 		// 頂点バッファの初期データ
 		D3D11_SUBRESOURCE_DATA subResourceData
 		{
-			.pSysMem = &indexes[0],	// バッファの中身の設定
+			.pSysMem = &indexes[0],			// バッファの中身の設定
 			.SysMemPitch = 0,				// textureデータを使用する際に使用するメンバ
 			.SysMemSlicePitch = 0			// textureデータを使用する際に使用するメンバ
 		};
@@ -191,7 +191,7 @@ namespace Engine
 		outVertices_.push_back(Utility::Vector(values[0], values[1], values[2]));
 	}
 
-	void ObjFile::ParseFKeywordTag(std::vector<Utility::CustomVertex>& outCustomVertices_, std::vector<Utility::Vector>& vertices_, std::vector<Utility::Vector>& normals_, char* p_Buffer_)
+	void ObjFile::ParseFKeywordTag(std::vector<Utility::ObjFile::Vertex>& outCustomVertices_, std::vector<Utility::Vector>& vertices_, std::vector<Utility::Vector>& normals_, char* p_Buffer_)
 	{
 		int vertexInfo[3] = { -1, -1, -1 };
 		std::vector<std::string> spaceSplit;
@@ -200,7 +200,7 @@ namespace Engine
 
 		for (int i = 0; i < spaceSplit.size(); i++)
 		{
-			Utility::CustomVertex vertex;
+			Utility::ObjFile::Vertex vertex;
 			ParseShashKeywordTag(vertexInfo, const_cast<char*>(spaceSplit[i].c_str()));
 
 			for (int j = 0; j < 3; j++)
@@ -259,7 +259,7 @@ namespace Engine
 				if (start_point != count)
 				{
 					char split_str[256] = { 0 };
-					strncpy_s(split_str, 256, &p_Buffer[start_point], count - start_point);
+					strncpy_s(split_str, 256, &p_Buffer[start_point], static_cast<rsize_t>(count) - start_point);
 					out.emplace_back(split_str);
 				}
 				else
@@ -274,7 +274,7 @@ namespace Engine
 		if (start_point != count)
 		{
 			char split_str[256] = { 0 };
-			strncpy_s(split_str, 256, &p_Buffer[start_point], count - start_point);
+			strncpy_s(split_str, 256, &p_Buffer[start_point], static_cast<rsize_t>(count) - start_point);
 			out.emplace_back(split_str);
 		}
 	}

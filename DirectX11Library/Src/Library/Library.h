@@ -2,13 +2,12 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
-#include "../Utility/Singleton.h"
-#include "Window/Window.h"
 #include "Graphics/DirectGraphics.h"
 #include "Input/Input.h"
-#include "Sound/Sound.h"
 #include "Model/ObjFile.h"
 #include "Shader/VertexShader.h"
+#include "Sound/Sound.h"
+#include "Window/Window.h"
 
 namespace Engine
 {

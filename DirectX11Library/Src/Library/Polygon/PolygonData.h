@@ -3,6 +3,7 @@
 #define MODEL_DATA_H
 
 #include <d3d11.h>
+#include <wrl.h>
 
 #include "../Shader/VertexShader.h"
 
@@ -14,11 +15,7 @@ namespace Engine
 		/**
 		* @breif コンストラクタ
 		*/
-		PolygonData() :
-			p_VertexBuffer(nullptr),
-			p_IndexBuffer(nullptr),
-			p_InputLayout(nullptr)
-		{}
+		PolygonData() = default;
 
 		/**
 		* @breif デストラクタ
@@ -46,17 +43,17 @@ namespace Engine
 		* @breif アクセサ関数
 		* @return 頂点バッファ
 		*/
-		ID3D11Buffer* GetVertexBuffer() { return p_VertexBuffer; }
+		ID3D11Buffer* GetVertexBuffer() { return p_VertexBuffer.Get(); }
 		/**
 		* @breif アクセサ関数
 		* @return インデックスバッファ
 		*/
-		ID3D11Buffer* GetIndexBuffer() { return p_IndexBuffer; }
+		ID3D11Buffer* GetIndexBuffer() { return p_IndexBuffer.Get(); }
 		/**
 		* @breif アクセサ関数
 		* @return 入力レイアウト
 		*/
-		ID3D11InputLayout* GetInputLayout() { return p_InputLayout; }
+		ID3D11InputLayout* GetInputLayout() { return p_InputLayout.Get(); }
 
 	public:
 		/**
@@ -75,9 +72,9 @@ namespace Engine
 		bool CreateRect(ID3D11Device* p_Device_, Shader::Vertex* p_VertexShader_);
 
 	private:
-		ID3D11Buffer* p_VertexBuffer;		//! 頂点バッファ
-		ID3D11Buffer* p_IndexBuffer;		//! インデックスバッファ
-		ID3D11InputLayout* p_InputLayout;	//! 入力レイアウト
+		Microsoft::WRL::ComPtr<ID3D11Buffer> p_VertexBuffer;		//! 頂点バッファ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> p_IndexBuffer;			//! インデックスバッファ
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> p_InputLayout;	//! 入力レイアウト
 	};
 };
 

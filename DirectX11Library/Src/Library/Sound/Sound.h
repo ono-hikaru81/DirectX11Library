@@ -3,6 +3,7 @@
 #define SOUND_H
 
 #include <dsound.h>
+#include <string>
 
 namespace Engine
 {
@@ -57,7 +58,7 @@ namespace Engine
 		* @param p_OutWavData_ : 読みこんだwavファイルのデータ
 		* @return trueなら読み込み成功
 		*/
-		bool LoadWavFile(const char* p_FileName_, WavData* p_OutWavData_);
+		bool LoadWavFile(const std::string p_FileName_, WavData* p_OutWavData_);
 
 	public:
 		/**
@@ -66,7 +67,7 @@ namespace Engine
 		* @param p_FIleName_ : 読み込むファイルの名前
 		* @return trueなら読み込み成功
 		*/
-		bool LoadFile(File ID_, const char* p_FileName_);
+		bool LoadFile(File ID_, const std::string p_FileName_);
 
 		/**
 		* @breif ファイル再生
@@ -82,8 +83,8 @@ namespace Engine
 		void StopFile(File ID_);
 
 	private:
-		LPDIRECTSOUND8 directSound { 0 };									//! DirectSound
-		LPDIRECTSOUNDBUFFER soundBufferList[static_cast<int>(File::Max)];	//! DirectSoundBuffer
+		LPDIRECTSOUND8 directSound { nullptr };									//! DirectSound
+		LPDIRECTSOUNDBUFFER soundBufferList[static_cast<int>(File::Max)] {};	//! DirectSoundBuffer
 	};
 }
 

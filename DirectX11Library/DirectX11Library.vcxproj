@@ -190,7 +190,6 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
     </ClCompile>
     <ClCompile Include="Src\Library\Polygon\PolygonData.cpp" />
     <ClCompile Include="Src\Library\Shader\PixelShader.cpp" />
-    <ClCompile Include="Src\Library\Shader\ShaderBase.cpp" />
     <ClCompile Include="Src\Library\Shader\VertexShader.cpp" />
     <ClCompile Include="Src\Library\Sound\Sound.cpp" />
     <ClCompile Include="Src\Library\Texture\Texture.cpp" />
@@ -212,7 +211,6 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
     </ClInclude>
     <ClInclude Include="Src\Library\Polygon\PolygonData.h" />
     <ClInclude Include="Src\Library\Shader\PixelShader.h" />
-    <ClInclude Include="Src\Library\Shader\ShaderBase.h" />
     <ClInclude Include="Src\Library\Shader\VertexShader.h" />
     <ClInclude Include="Src\Library\Sound\Sound.h" />
     <ClInclude Include="Src\Library\Texture\Texture.h" />

@@ -2,11 +2,11 @@
 #ifndef OBJFILE_H
 #define OBJFILE_H
 
+#include <d3d11.h>
 #include <map>
 #include <string>
 #include <vector>
 #include <wrl.h>
-#include <d3d11.h>
 
 #include "../Graphics/DirectGraphics.h"
 #include "../Shader/VertexShader.h"
@@ -22,10 +22,7 @@ namespace Engine
 		/*
 		* @breif コンストラクタ
 		*/
-		ObjFile() :
-			p_VertexBuffer(nullptr),
-			p_IndexBuffer(nullptr),
-			p_InputLayout(nullptr)
+		ObjFile()
 		{
 			verticesBuffer.clear();
 		}
@@ -58,7 +55,7 @@ namespace Engine
 		/*
 		* @breif 読み込み
 		*/
-		bool Load(const char* fileName_, ID3D11Device*p_Device_, Shader::Vertex* p_VertexShader_);
+		bool Load(const std::string fileName_, ID3D11Device*p_Device_, Shader::Vertex* p_VertexShader_);
 
 		/*
 		* 描画
@@ -69,7 +66,7 @@ namespace Engine
 		/*
 		* @breif メッシュ作成
 		*/
-		bool CreateMesh(const char* p_FileName_);
+		bool CreateMesh(const std::string p_FileName_);
 
 		/*
 		* @breif 頂点バッファ作成
@@ -92,7 +89,7 @@ namespace Engine
 
 		/*
 		*/
-		void ParseFKeywordTag(std::vector<Utility::CustomVertex>& outCustomVertices_, std::vector<Utility::Vector>& vertices_, std::vector<Utility::Vector>& normals_, char* p_Buffer_);
+		void ParseFKeywordTag(std::vector<Utility::ObjFile::Vertex>& outCustomVertices_, std::vector<Utility::Vector>& vertices_, std::vector<Utility::Vector>& normals_, char* p_Buffer_);
 
 		/*
 		*/
@@ -103,9 +100,9 @@ namespace Engine
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> p_VertexBuffer { nullptr };		//! 頂点バッファ(Shader送信用)
-		Microsoft::WRL::ComPtr<ID3D11Buffer> p_IndexBuffer{ nullptr };			//! インデックスバッファ(Shader送信用)
+		Microsoft::WRL::ComPtr<ID3D11Buffer> p_IndexBuffer { nullptr };			//! インデックスバッファ(Shader送信用)
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> p_InputLayout { nullptr };	//! 入力レイアウト
-		std::vector<Utility::CustomVertex> verticesBuffer;						//! 頂点バッファ
+		std::vector<Utility::ObjFile::Vertex> verticesBuffer;					//! 頂点バッファ
 		std::vector<UWORD> indexes;												//! インデックスバッファ
 	};
 }

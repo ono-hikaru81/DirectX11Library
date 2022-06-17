@@ -13,14 +13,14 @@ namespace Engine
 	bool Sound::Initialize()
 	{
 		// DirectSound生成
-		if (FAILED(DirectSoundCreate8(NULL, &directSound, NULL))) return false;
+		if (FAILED(DirectSoundCreate8(nullptr, &directSound, nullptr))) return false;
 
 		// 協調レベル設定
-		if (FAILED(directSound->SetCooperativeLevel(FindWindow(Window::p_ClassName, nullptr), DSSCL_NORMAL)));
+		if (FAILED(directSound->SetCooperativeLevel(FindWindow(Window::p_ClassName.c_str(), nullptr), DSSCL_NORMAL))) return false;
 
 		for (int i = 0; i < static_cast<int>(Sound::File::Max); i++)
 		{
-			soundBufferList[i] = NULL;
+			soundBufferList[i] = nullptr;
 		}
 
 		return true;
@@ -32,27 +32,27 @@ namespace Engine
 		// セカンダリバッファの開放
 		for (int i = 0; i < static_cast<int>(File::Max); i++)
 		{
-			if (soundBufferList[i] != NULL)
+			if (soundBufferList[i] != nullptr)
 			{
 				soundBufferList[i]->Stop();
 				soundBufferList[i]->Release();
-				soundBufferList[i] = NULL;
+				soundBufferList[i] = nullptr;
 			}
 		}
 
 		// DirectSoundインターフェースの解放
-		if (directSound != NULL)
+		if (directSound != nullptr)
 		{
 			directSound->Release();
-			directSound = NULL;
+			directSound = nullptr;
 		}
 	}
 
 	// wavファイル読み込み
-	bool Sound::LoadWavFile(const char* p_FileName_, WavData* p_OutWavData_)
+	bool Sound::LoadWavFile(const std::string p_FileName_, WavData* p_OutWavData_)
 	{
 		// WindowsマルチメディアのAPIハンドル
-		HMMIO mmioHandle = NULL;
+		HMMIO mmioHandle {};
 
 		// チャンク情報
 		MMCKINFO ckInfo {};
@@ -60,18 +60,15 @@ namespace Engine
 		// RIFFチャンク用
 		MMCKINFO riffCkInfo {};
 
-		// Wavファイル内、音サンプルのサイズ
-		DWORD wavSize = 0;
+		mmioHandle = mmioOpen(const_cast<LPSTR>(p_FileName_.c_str()), nullptr, MMIO_READ);
 
-		mmioHandle = mmioOpen(const_cast<char*>(p_FileName_), NULL, MMIO_READ);
-
-		if (mmioHandle == NULL) return false;
+		if (mmioHandle == nullptr) return false;
 
 		// RIFFチャンクに侵入する為にfccにWAVEを設定する
 		riffCkInfo.fccType = mmioFOURCC('W', 'A', 'V', 'E');
 
 		// RIFFチャンクに侵入する
-		if (MMSYSERR_NOERROR != mmioDescend(mmioHandle, &riffCkInfo, NULL, MMIO_FINDRIFF))
+		if (MMSYSERR_NOERROR != mmioDescend(mmioHandle, &riffCkInfo, nullptr, MMIO_FINDRIFF))
 		{
 			// 失敗
 			mmioClose(mmioHandle, MMIO_FHOPEN);
@@ -89,7 +86,7 @@ namespace Engine
 		}
 
 		// fmtデータの読み込み
-		LONG readSize = mmioRead(mmioHandle, (HPSTR)&p_OutWavData_->wavFormat, sizeof(p_OutWavData_->wavFormat));
+		LONG readSize { mmioRead(mmioHandle, (HPSTR)&p_OutWavData_->wavFormat, sizeof(p_OutWavData_->wavFormat)) };
 
 		if (readSize != sizeof(p_OutWavData_->wavFormat))
 		{
@@ -129,7 +126,7 @@ namespace Engine
 		p_OutWavData_->soundBuffer = new char[ckInfo.cksize];
 		readSize = mmioRead(mmioHandle, (HPSTR)p_OutWavData_->soundBuffer, ckInfo.cksize);
 
-		if (readSize != ckInfo.cksize)
+		if (static_cast<unsigned long>(readSize) != ckInfo.cksize)
 		{
 			mmioClose(mmioHandle, MMIO_FHOPEN);
 			delete[] p_OutWavData_->soundBuffer;
@@ -143,15 +140,15 @@ namespace Engine
 	}
 
 	// ファイル読み込み
-	bool Sound::LoadFile(File ID_, const char* p_FileName_)
+	bool Sound::LoadFile(File ID_, const std::string p_FileName_)
 	{
-		int fileID = static_cast<int>(ID_);
+		int fileID { static_cast<int>(ID_) };
 		WavData wavData;
 
 		if (!LoadWavFile(p_FileName_, &wavData)) return false;
 
 		// バッファ情報の設定
-		DSBUFFERDESC bufferDesc;
+		DSBUFFERDESC bufferDesc {};
 		ZeroMemory(&bufferDesc, sizeof(DSBUFFERDESC));
 		bufferDesc.dwSize = sizeof(DSBUFFERDESC);
 		bufferDesc.dwFlags = DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME;
@@ -160,17 +157,17 @@ namespace Engine
 		bufferDesc.lpwfxFormat = &wavData.wavFormat;
 
 		// セカンダリバッファ作成
-		if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &soundBufferList[fileID], NULL)))
+		if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &soundBufferList[fileID], nullptr)))
 		{
 			delete[] wavData.soundBuffer;
 			return false;
 		}
 
 		// 波形データを書き込むためにセカンダリバッファをロックする
-		void* buffer;
-		DWORD bufferSize;
+		void* buffer { nullptr };
+		DWORD bufferSize { 0 };
 
-		if (FAILED(soundBufferList[fileID]->Lock(0, wavData.size, &buffer, &bufferSize, NULL, NULL, 0)))
+		if (FAILED(soundBufferList[fileID]->Lock(0, wavData.size, &buffer, &bufferSize, nullptr, nullptr, 0)))
 		{
 			delete[] wavData.soundBuffer;
 			return false;
@@ -178,7 +175,7 @@ namespace Engine
 
 		memcpy(buffer, wavData.soundBuffer, bufferSize);
 
-		soundBufferList[fileID]->Unlock(&buffer, bufferSize, NULL, NULL);
+		soundBufferList[fileID]->Unlock(&buffer, bufferSize, nullptr, 0);
 
 		// コピーが終わったらサウンドデータを解放
 		delete[] wavData.soundBuffer;
@@ -189,11 +186,11 @@ namespace Engine
 	// ファイル再生
 	void Sound::PlayFile(File ID_, bool isLoop_)
 	{
-		int fileID = static_cast<int>(ID_);
+		int fileID { static_cast<int>(ID_) };
 
-		if (soundBufferList[fileID] == NULL) return;
+		if (soundBufferList[fileID] == nullptr) return;
 
-		int loopBit = isLoop_ == true ? 1 : 0;
+		int loopBit { isLoop_ == true ? 1 : 0 };
 
 		// 再生
 		soundBufferList[fileID]->Play(0, 0, DSBPLAY_LOOPING & loopBit);
@@ -204,11 +201,11 @@ namespace Engine
 	{
 		int fileID = static_cast<int>(ID_);
 
-		if (soundBufferList[fileID] == NULL) return;
+		if (soundBufferList[fileID] == nullptr) return;
 
 		// 停止
 		soundBufferList[fileID]->Stop();
 		// 再生位置を先頭に戻す
-		soundBufferList[fileID]->SetCurrentPosition(NULL);
+		soundBufferList[fileID]->SetCurrentPosition(0);
 	}
 }

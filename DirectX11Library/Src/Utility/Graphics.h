@@ -8,24 +8,25 @@
 
 namespace Utility
 {
-	//==============
-	// 2Dポリゴン用
-	//==============
-	struct ConstantBuffer
+	//! 2Dポリゴン
+	struct Porigon2D
 	{
-		DirectX::XMFLOAT4X4 world;
-		DirectX::XMFLOAT4 viewPort;
+		//! 定数バッファ
+		struct ConstantBuffer
+		{
+			DirectX::XMFLOAT4X4 world;
+			DirectX::XMFLOAT4 viewPort;
+		};
+
+		//! 頂点情報
+		struct Vertex
+		{
+			float pos[4];
+			float col[4];
+		};
 	};
 
-	struct Vertex
-	{
-		float pos[4];
-		float col[4];
-	};
-
-	//==============
-	// テクスチャ用
-	//==============
+	//! 2Dテクスチャ
 	struct TextureVertex
 	{
 		float pos[3];
@@ -33,22 +34,25 @@ namespace Utility
 		float uv[2];
 	};
 
-	//==========
-	// モデル用
-	//==========
-	struct ObjFileConstantBuffer
+	//! オブジェファイル
+	struct ObjFile
 	{
-		DirectX::XMFLOAT4X4 world;
-		DirectX::XMFLOAT4X4 view;
-		DirectX::XMFLOAT4X4 projection;
-		DirectX::XMFLOAT4 lightVector;
-		DirectX::XMFLOAT4 lightColor;
-	};
+		//! 定数バッファ
+		struct ConstantBuffer
+		{
+			DirectX::XMFLOAT4X4 world;
+			DirectX::XMFLOAT4X4 view;
+			DirectX::XMFLOAT4X4 projection;
+			DirectX::XMFLOAT4 lightVector;
+			DirectX::XMFLOAT4 lightColor;
+		};
 
-	struct CustomVertex
-	{
-		Vector pos;
-		Vector normal;
+		//! 頂点情報
+		struct Vertex
+		{
+			Vector pos;
+			Vector normal;
+		};
 	};
 }
 
