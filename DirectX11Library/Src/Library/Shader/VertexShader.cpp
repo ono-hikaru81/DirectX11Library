@@ -6,12 +6,12 @@ namespace Engine
 	namespace Shader
 	{
 		// シェーダファイル読み込み
-		int Vertex::LoadFile(const char* p_FileName_)
+		int Vertex::LoadFile(const std::string& p_FileName_)
 		{
 			FILE* p_File = nullptr;
 
 			// ファイルを開く
-			fopen_s(&p_File, p_FileName_, "rb");
+			fopen_s(&p_File, p_FileName_.c_str(), "rb");
 
 			if (p_File == nullptr) return 0;
 
@@ -33,7 +33,7 @@ namespace Engine
 		}
 
 		// シェーダ作成
-		bool Vertex::Create(ID3D11Device* p_Device_, const char* p_FileName_)
+		bool Vertex::Create(ID3D11Device* p_Device_, const std::string& p_FileName_)
 		{
 			p_DataSize = LoadFile(p_FileName_);
 

@@ -1,11 +1,9 @@
 ﻿
 #include "Definition.h"
 #include "Library/Library.h"
-#include <time.h>
 
 int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 {
-
 	// エンジン初期化
 	if (!Engine::Library::Initialize("DirectX11Library", static_cast<int>(WindowInfo::size.GetX()), static_cast<int>(WindowInfo::size.GetY()))) return 0;
 
@@ -21,11 +19,6 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 	Utility::Vector pos = Utility::Vector(0.0f, 0.0f, 0.0f);
 	Utility::Vector degree = Utility::Vector(0.0f, 0.0f, 0.0f);
 	Utility::Vector scale = Utility::Vector(1.0f, 1.0f, 1.0f);
-
-	timeBeginPeriod(1);
-
-	DWORD current = timeGetTime();
-	DWORD before = current;
 
 	// メインループ
 	while (true)
@@ -59,30 +52,19 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 			}
 
 			// ポリゴン描画
-			Engine::Library::DrawPorigon(0.0f, 0.0f, 100.0f, 100.0f);
-			Engine::Library::DrawRect(100.0f, 100.0f, 100.0f, 100.0f);
+			Engine::Library::RenderTriangle(0.0f, 0.0f, 100.0f, 100.0f);
+			Engine::Library::RenderRect(100.0f, 100.0f, 100.0f, 100.0f, 0.0f);
 
 			// テクスチャ描画
 			Engine::Library::DrawTexture(L"Res/Texture/miniball.png", 0.0f, 0.0f, 32.0f, 32.0f);
 
-			degree.operator+=(Utility::Vector(0.0f, 1.0f, 0.0f));
+			degree.operator+=(Utility::Vector(0.1f, 0.5f, 0.1f));
 			// objファイル描画
 			Engine::Library::RenderObjFile(pos, scale, degree);
 
 			Engine::Library::FinishRendering();
-
-			while (current - before < 17)
-			{
-				Sleep(current - before);
-
-				current = timeGetTime();
-			}
-
-			before = current;
 		}
 	}
-
-	timeEndPeriod(1);
 
 	// エンジン解放
 	Engine::Library::Release();

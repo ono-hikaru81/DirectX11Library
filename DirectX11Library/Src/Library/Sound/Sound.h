@@ -58,7 +58,7 @@ namespace Engine
 		* @param p_OutWavData_ : 読みこんだwavファイルのデータ
 		* @return trueなら読み込み成功
 		*/
-		bool LoadWavFile(const std::string p_FileName_, WavData* p_OutWavData_);
+		bool LoadWavFile(const std::string& p_FileName_, WavData* p_OutWavData_);
 
 	public:
 		/**
@@ -67,20 +67,20 @@ namespace Engine
 		* @param p_FIleName_ : 読み込むファイルの名前
 		* @return trueなら読み込み成功
 		*/
-		bool LoadFile(File ID_, const std::string p_FileName_);
+		bool LoadFile(File& ID_, const std::string& p_FileName_);
 
 		/**
 		* @breif ファイル再生
 		* @param ID_ : Sound::Fileの列挙子
 		* @param isLoop_ : ループするか
 		*/
-		void PlayFile(File ID_, bool isLoop_);
+		void PlayFile(File& ID_, const bool& isLoop_);
 
 		/**
 		* @breif ファイル停止
 		* @param ID_ : Sound::Fileの列挙子
 		*/
-		void StopFile(File ID_);
+		void StopFile(File& ID_);
 
 	private:
 		LPDIRECTSOUND8 directSound { nullptr };									//! DirectSound

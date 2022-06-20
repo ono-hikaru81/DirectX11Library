@@ -64,7 +64,7 @@ namespace Engine
 	}
 
 	// キーの押下状態更新
-	Input::KeyStatus Input::UpdateKeyStatus(bool isPush_, KeyStatus state_)
+	Input::KeyStatus Input::UpdateKeyStatus(const bool& isPush_, const KeyStatus& state_)
 	{
 		if (isPush_)
 		{
@@ -88,7 +88,7 @@ namespace Engine
 		return KeyStatus::NoHold;
 	}
 	// キーを押している状態
-	bool Input::IsKeyHeld(int key_)
+	bool Input::IsKeyHeld(const int& key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;
 
@@ -96,7 +96,7 @@ namespace Engine
 	}
 
 	// キーを押した瞬間
-	bool Input::IsKeyPushed(int key_)
+	bool Input::IsKeyPushed(const int& key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;
 
@@ -104,7 +104,7 @@ namespace Engine
 	}
 
 	// キーを離した瞬間
-	bool Input::IsKeyReleased(int key_)
+	bool Input::IsKeyReleased(const int& key_)
 	{
 		if (key_ < 0 || key_ >= KEY_MAX) return false;
 

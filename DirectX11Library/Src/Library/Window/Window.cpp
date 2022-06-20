@@ -22,7 +22,7 @@ namespace Engine
 	}
 
 	// ウィンドウ作成
-	bool Window::Create(const std::string p_Title_, unsigned int width_, unsigned int height_)
+	bool Window::Create(const std::string& p_Title_, const unsigned int& width_, const unsigned int& height_)
 	{
 		p_Title = p_Title_;
 		width = width_;
@@ -78,7 +78,7 @@ namespace Engine
 	}
 
 	// ウィンドウのサイズ調整
-	void Window::ResizeWindow(HWND windowHandle_)
+	void Window::ResizeWindow(HWND& windowHandle_)
 	{
 		RECT windowRect {};
 		RECT clientRect {};

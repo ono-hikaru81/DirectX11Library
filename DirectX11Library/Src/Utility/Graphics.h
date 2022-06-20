@@ -9,7 +9,7 @@
 namespace Utility
 {
 	//! 2Dポリゴン
-	struct Porigon2D
+	struct Porygon2D
 	{
 		//! 定数バッファ
 		struct ConstantBuffer
