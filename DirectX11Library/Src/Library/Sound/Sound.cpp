@@ -49,7 +49,7 @@ namespace Engine
 	}
 
 	// wavファイル読み込み
-	bool Sound::LoadWavFile(const std::string p_FileName_, WavData* p_OutWavData_)
+	bool Sound::LoadWavFile(const std::string& p_FileName_, WavData* p_OutWavData_)
 	{
 		// WindowsマルチメディアのAPIハンドル
 		HMMIO mmioHandle {};
@@ -140,7 +140,7 @@ namespace Engine
 	}
 
 	// ファイル読み込み
-	bool Sound::LoadFile(File ID_, const std::string p_FileName_)
+	bool Sound::LoadFile(File& ID_, const std::string& p_FileName_)
 	{
 		int fileID { static_cast<int>(ID_) };
 		WavData wavData;
@@ -184,7 +184,7 @@ namespace Engine
 	}
 
 	// ファイル再生
-	void Sound::PlayFile(File ID_, bool isLoop_)
+	void Sound::PlayFile(File& ID_, const bool& isLoop_)
 	{
 		int fileID { static_cast<int>(ID_) };
 
@@ -197,7 +197,7 @@ namespace Engine
 	}
 
 	// ファイル停止
-	void Sound::StopFile(File ID_)
+	void Sound::StopFile(File& ID_)
 	{
 		int fileID = static_cast<int>(ID_);
 

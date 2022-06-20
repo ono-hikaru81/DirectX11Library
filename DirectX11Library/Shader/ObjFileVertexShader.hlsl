@@ -24,20 +24,22 @@ VS_OUT main(VS_IN input)
 {
 	VS_OUT output;
 
-	// ローカル座標 * ワールド座標変換行列
+	// ワールド座標変換
+	// ローカル座標
 	output.pos = mul(input.pos, World);
-	// ワールド座標 * ビュー座標変換行列
+	// ビュー座標変換行列
 	output.pos = mul(output.pos, View);
-	// ビュー座標 * プロジェクション座標変換行列
+	// プロジェクション座標変換行列
 	output.pos = mul(output.pos, Projection);
 
 	float4 normal;
-	// 移動が計算に反映させない
-	input.nor.w = 0.0;
-	// 頂点の法線にワールド行列を掛け合わせて
-	// ワールド座標上での法線の向きに変換する
+	
+	input.nor.w = 0.0; // wが1.0f以外のピクセルに送られる際に w = 1 に変換されるので戻しておく
+
+	// 頂点の法線にワールド行列を掛け合わせてワールド座標上での法線の向きに変換する
 	normal = mul(input.nor, World).xyzw;
 	normal = normalize(normal);
+
 	// saturate => 引数で指定した値を0～1間での範囲に収める
 	// dot => 内積計算
 	float rad = saturate(dot(normal, LightVector));

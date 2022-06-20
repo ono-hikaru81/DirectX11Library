@@ -4,6 +4,7 @@
 
 #include <d3d11.h>
 #include <stdio.h>
+#include <string>
 #include <wrl.h>
 
 namespace Engine
@@ -26,10 +27,7 @@ namespace Engine
 			*/
 			~Vertex()
 			{
-				if (p_VertexShader != nullptr)
-				{
-					p_VertexShader->Release();
-				}
+				p_VertexShader.Reset();
 			}
 
 		public:
@@ -37,19 +35,19 @@ namespace Engine
 			* @breif アクセサ関数
 			* @return インターフェース
 			*/
-			ID3D11VertexShader* GetShaderInterface() { return p_VertexShader.Get(); }
+			ID3D11VertexShader* GetShaderInterface() const { return p_VertexShader.Get(); }
 
 			/**
 			* @breif アクセサ関数
 			* @return データの開始位置
 			*/
-			inline const char* GetData() { return p_DataPoint; }
+			inline char* GetData() const { return p_DataPoint; }
 
 			/**
 			* @breif アクセサ関数
 			* @return データサイズ
 			*/
-			inline long GetSize() { return p_DataSize; }
+			inline long GetSize() const { return p_DataSize; }
 
 		private:
 			/**
@@ -57,7 +55,7 @@ namespace Engine
 			* @param p_FileName_ : 読みこむファイルの名前
 			* @return データサイズ
 			*/
-			int LoadFile(const char* p_FileName_);
+			int LoadFile(const std::string& p_FileName_);
 
 		public:
 			/**
@@ -66,11 +64,11 @@ namespace Engine
 			* @param p_FileName_ : 読みこむファイル
 			* @return trueが帰ってきたら作成
 			*/
-			bool Create(ID3D11Device* p_Device_, const char* p_FileName_);
+			bool Create(ID3D11Device* p_Device_, const std::string& p_FileName_);
 
 		private:
 			Microsoft::WRL::ComPtr<ID3D11VertexShader> p_VertexShader { nullptr };	//! VertexShader
-			char* p_DataPoint { nullptr };							//! データ開始位置
+			char* p_DataPoint { nullptr };											//! データ開始位置
 			long p_DataSize { 0 };													//! データサイズ
 		};
 	};

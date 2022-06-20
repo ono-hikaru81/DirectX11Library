@@ -7,7 +7,7 @@
 //! ウィンドウ情報
 namespace WindowInfo
 {
-	static const Utility::Vector size(640, 480);	//! ウィンドウサイズ
+	static const Utility::Vector size(640.0f, 480.0f);	//! ウィンドウサイズ
 }
 
 #endif // DEFINITION_H
