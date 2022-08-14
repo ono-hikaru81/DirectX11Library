@@ -20,6 +20,12 @@ namespace Engine
 
 		if (!CreateDepthAndStencilView()) return false;
 
+		if (!CreateDepthStencilState()) return false;
+
+		if (!CreateRasterizerState()) return false;
+
+		if (!CreateBlendState()) return false;
+
 		if (!CreateShader()) return false;
 
 		SetUpViewPort();
@@ -72,6 +78,9 @@ namespace Engine
 		p_DeviceContext.Get()->VSSetShader(p_ObjFileVertexShader.get()->GetShaderInterface(), nullptr, 0);
 		p_DeviceContext.Get()->PSSetShader(p_ObjFilePixelShader.get()->GetShaderInterface(), nullptr, 0);
 		p_DeviceContext.Get()->OMSetRenderTargets(1, p_RenderTargetView.GetAddressOf(), p_DepthStencilView.Get());
+		p_DeviceContext.Get()->OMSetDepthStencilState(p_DepthStencilState.Get(), 1);
+		p_DeviceContext.Get()->RSSetState(p_RasterizerState.Get());
+		p_DeviceContext.Get()->OMSetBlendState(p_BlendState.Get(), 0, 0xffffffff);
 	}
 
 	// DXGI_SWAP_CHAIN_DESCの設定関数
@@ -178,6 +187,63 @@ namespace Engine
 
 		// CrateTexture2Dとdsv_descからDepthとStencilバッファを作る
 		if (FAILED(p_Device.Get()->CreateDepthStencilView(p_DepthStencilTexture.Get(), &depthStencilViewDesc, p_DepthStencilView.GetAddressOf()))) return false;
+
+		return true;
+	}
+
+	// DepthStencilState作成関数
+	bool DirectGraphics::CreateDepthStencilState()
+	{
+		// 深度テストを行う深度ステンシルステートの作成
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
+		ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+		depthStencilDesc.DepthEnable = true;
+		depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+		depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthStencilDesc.StencilEnable = false;
+
+		if (FAILED(p_Device.Get()->CreateDepthStencilState(&depthStencilDesc, p_DepthStencilState.GetAddressOf()))) return false;
+
+		return true;
+	}
+
+	// RasterizerState作成関数
+	bool DirectGraphics::CreateRasterizerState()
+	{
+		D3D11_RASTERIZER_DESC rasterizerDesc {};
+		ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
+		rasterizerDesc.AntialiasedLineEnable = FALSE;
+		rasterizerDesc.CullMode = D3D11_CULL_BACK;
+		rasterizerDesc.DepthBias = 0;
+		rasterizerDesc.DepthBiasClamp = 0.0f;
+		rasterizerDesc.DepthClipEnable = TRUE;
+		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		rasterizerDesc.FrontCounterClockwise = FALSE;
+		rasterizerDesc.MultisampleEnable = FALSE;
+		rasterizerDesc.ScissorEnable = FALSE;
+		rasterizerDesc.SlopeScaledDepthBias = 0.0f;
+
+		if (FAILED(p_Device.Get()->CreateRasterizerState(&rasterizerDesc, p_RasterizerState.GetAddressOf()))) return false;;
+
+		return true;
+	}
+
+	// BlendState作成関数
+	bool DirectGraphics::CreateBlendState()
+	{
+		D3D11_BLEND_DESC blendDesc{};
+		blendDesc.AlphaToCoverageEnable = FALSE;
+		blendDesc.IndependentBlendEnable = FALSE;
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		if (FAILED(p_Device.Get()->CreateBlendState(&blendDesc, p_BlendState.GetAddressOf()))) return false;
 
 		return true;
 	}

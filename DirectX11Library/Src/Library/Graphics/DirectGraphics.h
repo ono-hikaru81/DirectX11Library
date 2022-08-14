@@ -149,6 +149,24 @@ namespace Engine
 		*/
 		bool CreateDepthAndStencilView();
 
+		/*
+		* @breif DepthStencilState作成関数
+		* @return trueなら作成
+		*/
+		bool CreateDepthStencilState();
+
+		/*
+		* @breif RasterizerState作成関数
+		* @return trueなら作成
+		*/
+		bool CreateRasterizerState();
+
+		/*
+		* @breif BlendState作成関数
+		* @return trueなら作成
+		*/
+		bool CreateBlendState();
+
 		/**
 		* @breif シェーダの作成関数
 		* @return trueなら作成
@@ -162,14 +180,17 @@ namespace Engine
 		void SetUpViewPort();
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> p_DepthStencilTexture { nullptr };		//! DepthStencilView
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> p_DepthStencilView { nullptr };	//! DepthStencilView
-		Microsoft::WRL::ComPtr<ID3D11Device> p_Device { nullptr };						//! Device
-		Microsoft::WRL::ComPtr<ID3D11DeviceContext> p_DeviceContext { nullptr };		//! DeviceContext
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> p_RenderTargetView { nullptr };	//! RenderTargetView
-		Microsoft::WRL::ComPtr<IDXGISwapChain> p_SwapChain { nullptr };					//! SwapChain
-		Microsoft::WRL::ComPtr<ID3D11SamplerState> p_SamplerState { nullptr };			//! SamplerState
-		D3D11_VIEWPORT viewPort {};														//! ViewPort
+		Microsoft::WRL::ComPtr<ID3D11BlendState> p_BlendState{};							//! BlendState
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> p_DepthStencilState { nullptr };	//! DepthStencilState
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> p_DepthStencilTexture { nullptr };			//! DepthStencilTexture
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> p_DepthStencilView { nullptr };		//! DepthStencilView
+		Microsoft::WRL::ComPtr<ID3D11Device> p_Device { nullptr };							//! Device
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> p_DeviceContext { nullptr };			//! DeviceContext
+		Microsoft::WRL::ComPtr<ID3D11RasterizerState> p_RasterizerState { nullptr };		//! RasterizerState
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> p_RenderTargetView { nullptr };		//! RenderTargetView
+		Microsoft::WRL::ComPtr<IDXGISwapChain> p_SwapChain { nullptr };						//! SwapChain
+		Microsoft::WRL::ComPtr<ID3D11SamplerState> p_SamplerState { nullptr };				//! SamplerState
+		D3D11_VIEWPORT viewPort {};															//! ViewPort
 
 		std::unique_ptr<Shader::Vertex> p_Porigon2DVertexShader { nullptr };	//! 2Dポリゴン用頂点シェーダ
 		std::unique_ptr<Shader::Pixcel> p_Porigon2DPixelShader { nullptr };		//! 2Dポリゴン用ピクセルシェーダ

@@ -34,11 +34,10 @@ VS_OUT main(VS_IN input)
 
 	float4 normal;
 	
-	input.nor.w = 0.0; // wが1.0f以外のピクセルに送られる際に w = 1 に変換されるので戻しておく
+	input.nor.w = 0.0f; // wが1.0f以外のピクセルに送られる際に w = 1 に変換されるので戻しておく
 
 	// 頂点の法線にワールド行列を掛け合わせてワールド座標上での法線の向きに変換する
-	normal = mul(input.nor, World).xyzw;
-	normal = normalize(normal);
+	normal = normalize((mul(input.nor, World).xyzw));
 
 	// saturate => 引数で指定した値を0～1間での範囲に収める
 	// dot => 内積計算
@@ -46,6 +45,7 @@ VS_OUT main(VS_IN input)
 
 	// ライトのカラー * 光のあたり加減
 	output.col = LightColor * rad;
+	output.col.a = 1.0f;
 
 	return output;
 }
