@@ -283,6 +283,15 @@ namespace Engine
 			// インデックスバッファに追加
 			indexes.push_back(static_cast<UWORD>(vertices_.size() - 1));
 		}
+
+		// 3頂点以上の時
+		if (spaceSplit.size() > 3)
+		{
+			UINT size = static_cast<UINT>(indexes.size());
+
+			indexes.push_back(indexes[size - 4]);
+			indexes.push_back(indexes[size - 2]);
+		}
 	}
 
 	// "/"解析
