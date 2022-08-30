@@ -38,6 +38,9 @@
     <Filter Include="ソース ファイル\Library\Model">
       <UniqueIdentifier>{817c8a52-e840-4f18-9836-e71579adba82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Library\Camera">
+      <UniqueIdentifier>{1ff20fd4-32de-428f-9a88-d91312e81f4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Main.cpp">
@@ -70,11 +73,14 @@
     <ClCompile Include="Src\Library\Graphics\DirectGraphics.cpp">
       <Filter>ソース ファイル\Library\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Library\Library.cpp">
-      <Filter>ソース ファイル\Library</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Library\Model\ObjFile.cpp">
       <Filter>ソース ファイル\Library\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Library\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Library\Library.cpp">
+      <Filter>ソース ファイル\Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +129,9 @@
     <ClInclude Include="Src\Library\Model\ObjFile.h">
       <Filter>ソース ファイル\Library\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Library\Camera\Camera.h">
+      <Filter>ソース ファイル\Library\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\TextureVertexShader.hlsl">
@@ -146,6 +155,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shader\2DPolygonVertexShader.hlsl.vsspell" />
   </ItemGroup>
 </Project>

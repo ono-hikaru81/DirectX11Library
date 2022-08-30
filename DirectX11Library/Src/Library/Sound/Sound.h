@@ -16,10 +16,11 @@ namespace Engine
 		//! サウンドファイル識別
 		enum class File
 		{
-			TestBGM,
-			Max
+			TestBGM,	//! テストBGM
+			Max			//! 最大数
 		};
 
+	private:
 		//! wavデータの構造体
 		struct WavData
 		{

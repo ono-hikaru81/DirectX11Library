@@ -97,6 +97,10 @@ namespace Engine
 		*/
 		Shader::Vertex* GetObjFileVertexShader() const { return p_ObjFileVertexShader.get(); }
 
+		void SetConstantBufferData3D(Utility::ObjFile::ConstantBuffer constantBufferData3D_) { constantBufferDara3D = constantBufferData3D_; }
+
+		Utility::ObjFile::ConstantBuffer GetConstantBufferData3D() const { return constantBufferDara3D; }
+
 	public:
 		/**
 		* @breif 初期化
@@ -180,7 +184,7 @@ namespace Engine
 		void SetUpViewPort();
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11BlendState> p_BlendState{};							//! BlendState
+		Microsoft::WRL::ComPtr<ID3D11BlendState> p_BlendState { nullptr };					//! BlendState
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> p_DepthStencilState { nullptr };	//! DepthStencilState
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> p_DepthStencilTexture { nullptr };			//! DepthStencilTexture
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> p_DepthStencilView { nullptr };		//! DepthStencilView
@@ -195,11 +199,12 @@ namespace Engine
 		std::unique_ptr<Shader::Vertex> p_Porigon2DVertexShader { nullptr };	//! 2Dポリゴン用頂点シェーダ
 		std::unique_ptr<Shader::Pixcel> p_Porigon2DPixelShader { nullptr };		//! 2Dポリゴン用ピクセルシェーダ
 
-		std::unique_ptr<Shader::Vertex> p_TextureVertexShader { nullptr };	//! テクスチャ用頂点シェーダ
-		std::unique_ptr<Shader::Pixcel> p_TexturePixelShader { nullptr };	//! テクスチャ用ピクセルシェーダ
+		std::unique_ptr<Shader::Vertex> p_TextureVertexShader { nullptr };		//! テクスチャ用頂点シェーダ
+		std::unique_ptr<Shader::Pixcel> p_TexturePixelShader { nullptr };		//! テクスチャ用ピクセルシェーダ
 
-		std::unique_ptr<Shader::Vertex> p_ObjFileVertexShader { nullptr };			//! ObjFile用頂点シェーダ
-		std::unique_ptr<Shader::Pixcel> p_ObjFilePixelShader { nullptr };			//! ObjFile用ピクセルシェーダ
+		std::unique_ptr<Shader::Vertex> p_ObjFileVertexShader { nullptr };		//! ObjFile用頂点シェーダ
+		std::unique_ptr<Shader::Pixcel> p_ObjFilePixelShader { nullptr };		//! ObjFile用ピクセルシェーダ
+		Utility::ObjFile::ConstantBuffer  constantBufferDara3D {};				//! 3次元用定数バッファデータ
 	};
 };
 

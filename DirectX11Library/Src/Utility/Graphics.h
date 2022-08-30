@@ -14,24 +14,25 @@ namespace Utility
 		//! 定数バッファ
 		struct ConstantBuffer
 		{
-			DirectX::XMFLOAT4X4 world;
-			DirectX::XMFLOAT4 viewPort;
+			DirectX::XMFLOAT4X4 world;	//! ワールドマトリクス
+			DirectX::XMFLOAT4 viewPort;	//! ビューポート
+			DirectX::XMFLOAT4 color;	//! 色
 		};
 
 		//! 頂点情報
 		struct Vertex
 		{
-			float pos[4];
-			float col[4];
+			float pos[4];	//! 座標
+			float col[4];	//! 色
 		};
 	};
 
 	//! 2Dテクスチャ
 	struct TextureVertex
 	{
-		float pos[3];
-		float color[4];
-		float uv[2];
+		float pos[3];		//! 座標
+		float color[4];		//! 色
+		float uv[2];		//! UV座標
 	};
 
 	//! オブジェファイル
@@ -40,18 +41,18 @@ namespace Utility
 		//! 定数バッファ
 		struct ConstantBuffer
 		{
-			DirectX::XMFLOAT4X4 world;
-			DirectX::XMFLOAT4X4 view;
-			DirectX::XMFLOAT4X4 projection;
-			DirectX::XMFLOAT4 lightVector;
-			DirectX::XMFLOAT4 lightColor;
+			DirectX::XMFLOAT4X4 world;		//! ワールドマトリクス
+			DirectX::XMFLOAT4X4 view;		//! ビューマトリクス
+			DirectX::XMFLOAT4X4 projection;	//! プロジェクションマトリクス
+			DirectX::XMFLOAT4 lightVector;	//! ライトベクトル
+			DirectX::XMFLOAT4 lightColor;	//! ライトの色
 		};
 
 		//! 頂点情報
 		struct Vertex
 		{
-			Vector pos;
-			Vector normal;
+			Vector pos;		//! 座標
+			Vector normal;	//! 法線
 		};
 	};
 }

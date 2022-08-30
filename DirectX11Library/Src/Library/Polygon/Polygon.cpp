@@ -34,7 +34,7 @@ namespace Engine
 	}
 
 	// 三角形描画
-	void Polygon::RenderTriangle(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_)
+	void Polygon::RenderTriangle(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_, const Utility::Vector color_)
 	{
 		UINT strides = sizeof(Utility::Porygon2D::Vertex);
 		UINT offsets = 0;
@@ -65,6 +65,7 @@ namespace Engine
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
 		constantBufferData.viewPort = DirectX::XMFLOAT4(p_DirectGraphics_->GetViewPort()->Width, p_DirectGraphics_->GetViewPort()->Height, 0.0f, 1.0f);
+		constantBufferData.color = DirectX::XMFLOAT4(color_.GetX(), color_.GetY(), color_.GetZ(), 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer.Get(), 0, nullptr, &constantBufferData, 0, 0);
@@ -75,7 +76,7 @@ namespace Engine
 	}
 
 	// 矩形描画
-	void Polygon::RenderRect(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_)
+	void Polygon::RenderRect(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_, const Utility::Vector color_)
 	{
 		UINT strides = sizeof(Utility::Porygon2D::Vertex);
 		UINT offsets = 0;
@@ -106,6 +107,7 @@ namespace Engine
 		XMStoreFloat4x4(&constantBufferData.world, XMMatrixTranspose(worldMatrix));
 
 		constantBufferData.viewPort = DirectX::XMFLOAT4(p_DirectGraphics_->GetViewPort()->Width, p_DirectGraphics_->GetViewPort()->Height, 0.0f, 1.0f);
+		constantBufferData.color = DirectX::XMFLOAT4(color_.GetX(), color_.GetY(), color_.GetZ(), 1.0f);
 
 		// コンスタントバッファ更新
 		p_DeviceContext->UpdateSubresource(p_ConstantBuffer.Get(), 0, nullptr, &constantBufferData, 0, 0);

@@ -122,7 +122,7 @@ namespace Engine
 		/*
 		* @breif 変換行列設定
 		*/
-		void SetUpTransform();
+		void SetUpTransform(DirectGraphics* p_DirectGraphics_);
 
 		/*
 		* @brief 文字列を分割する
@@ -137,9 +137,8 @@ namespace Engine
 		Microsoft::WRL::ComPtr<ID3D11Buffer> p_IndexBuffer { nullptr };			//! インデックスバッファ(Shader送信用)
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> p_InputLayout { nullptr };	//! 入力レイアウト
 		Microsoft::WRL::ComPtr<ID3D11Buffer> p_ConstantBuffer { nullptr };		//! 定数バッファ
-		Utility::ObjFile::ConstantBuffer constantBufferData{};					//! 定数バッファのデータ
-		std::vector<Utility::ObjFile::Vertex> verticesBuffer;					//! 頂点バッファ
-		std::vector<UWORD> indexes;												//! インデックスバッファ
+		std::vector<Utility::ObjFile::Vertex> verticesBuffer {};				//! 頂点バッファ
+		std::vector<UWORD> indexes {};											//! インデックスバッファ
 	};
 }
 

@@ -17,8 +17,8 @@ namespace Engine
 		// DirectGraphicsの初期化
 		if (!p_Library->directGraphics.Initialize()) return false;
 
-		// PorygonDataの初期化
-		if (!p_Library->porygon.Initialize(GetDirectGraphics())) return false;
+		// PolygonDataの初期化
+		if (!p_Library->polygon.Initialize(GetDirectGraphics())) return false;
 
 		// Inputの初期化
 		if (!p_Library->input.Initialize()) return false;
@@ -28,6 +28,9 @@ namespace Engine
 
 		// Textureの初期化
 		if (!p_Library->texture.Initialize(GetDirectGraphics())) return false;
+
+		// カメラの初期化
+		p_Library->camera.Initialize(GetDirectGraphics());
 
 		// ObjFileの初期化
 		if (!p_Library->objFile.Initialize(GetDirectGraphics())) return false;
@@ -39,7 +42,7 @@ namespace Engine
 	void Library::Release()
 	{
 		p_Library->directGraphics.Release();
-		p_Library->porygon.Release();
+		p_Library->polygon.Release();
 		p_Library->input.Release();
 		p_Library->sound.Release();
 		p_Library->texture.Release();

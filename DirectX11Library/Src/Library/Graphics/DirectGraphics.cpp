@@ -68,7 +68,7 @@ namespace Engine
 	void DirectGraphics::FinishRendering()
 	{
 		// バッファを切り替える
-		p_SwapChain.Get()->Present(0, 0);
+		p_SwapChain.Get()->Present(1, 0);
 	}
 
 	void DirectGraphics::SetUpDeviceContext()

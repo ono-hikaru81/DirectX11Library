@@ -46,7 +46,8 @@ namespace Engine
 		* @param height_ : Y軸の大きさ
 		* @param angle_ : 角度
 		*/
-		void RenderTriangle(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_ = 0.0f);
+		void RenderTriangle(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_ = 0.0f,
+							const Utility::Vector color_ = Utility::Vector(0.0f, 0.0f, 0.0f));
 
 		/**
 		* @breif 矩形描画
@@ -56,7 +57,8 @@ namespace Engine
 		* @param height_ : Y軸の大きさ
 		* @param angle_ : 角度
 		*/
-		void RenderRect(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_ = 0.0f);
+		void RenderRect(DirectGraphics* p_DirectGraphics_, const float& posX_, const float& posY_, const float& width_, const float& height_, const float angle_ = 0.0f,
+						const Utility::Vector color_ = Utility::Vector(0.0f, 0.0f, 0.0f));
 
 	private:
 		/**

@@ -178,6 +178,10 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Library\Camera\Camera.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Src\Library\Graphics\DirectGraphics.cpp" />
     <ClCompile Include="Src\Library\Input\Input.cpp" />
     <ClCompile Include="Src\Library\Library.cpp">
@@ -199,6 +203,10 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Definition.h" />
+    <ClInclude Include="Src\Library\Camera\Camera.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Src\Library\Graphics\DirectGraphics.h" />
     <ClInclude Include="Src\Library\Input\Input.h" />
     <ClInclude Include="Src\Library\Library.h">
@@ -272,7 +280,6 @@ copy "$(TargetDir)*.cso" %OUTPUT_DIRECTORY%</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shader\2DPolygonVertexShader.hlsl.vsspell" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

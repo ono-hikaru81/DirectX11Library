@@ -129,7 +129,7 @@ namespace Utility
 			return vec;
 		}
 
-	private:
+	public:
 		//! ベクトル成分
 		float x;
 		float y;

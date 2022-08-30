@@ -17,7 +17,7 @@ namespace Engine
 
 		if (!CreateConstantBuffer(p_DirectGraphics_)) return false;
 
-		SetUpTransform();
+		SetUpTransform(p_DirectGraphics_);
 
 		return true;
 	}
@@ -54,11 +54,13 @@ namespace Engine
 
 		// ワールド行列設定
 		DirectX::XMMATRIX translate = DirectX::XMMatrixTranslation(pos_.GetX(), pos_.GetY(), pos_.GetZ());
-		DirectX::XMMATRIX rotateX = DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(degree_.GetX() * (3.14f / 180.0f)));
-		DirectX::XMMATRIX rotateY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(degree_.GetY() * (3.14f / 180.0f)));
-		DirectX::XMMATRIX rotateZ = DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(degree_.GetZ() * (3.14f / 180.0f)));
+		DirectX::XMMATRIX rotateX = DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(degree_.GetX()));
+		DirectX::XMMATRIX rotateY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(degree_.GetY()));
+		DirectX::XMMATRIX rotateZ = DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(degree_.GetZ()));
 		DirectX::XMMATRIX scaleMatrix = DirectX::XMMatrixScaling(scale_.GetX(), scale_.GetY(), scale_.GetZ());
 		DirectX::XMMATRIX worldMatrix = scaleMatrix * rotateX * rotateY * rotateZ * translate;
+
+		Utility::ObjFile::ConstantBuffer constantBufferData = p_DirectGraphics_->GetConstantBufferData3D();
 
 		// 入力レイアウトの設定
 		p_DirectGraphics_->GetDeviceContext()->IASetInputLayout(p_InputLayout.Get());
@@ -314,35 +316,20 @@ namespace Engine
 	}
 
 	// 変換行列設定
-	void ObjFile::SetUpTransform()
+	void ObjFile::SetUpTransform(DirectGraphics* p_DirectGraphics_)
 	{
-		HWND windowHandle = FindWindow(Window::p_ClassName.c_str(), nullptr);
-		RECT rect{};
-		GetClientRect(windowHandle, &rect);
-
-		// Viewマトリクス設定
-		DirectX::XMVECTOR eye = DirectX::XMVectorSet(0.0f, 0.0f, -50.0f, 0.0f);
-		DirectX::XMVECTOR focus = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-		DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-		DirectX::XMMATRIX viewMatrix = DirectX::XMMatrixLookAtLH(eye, focus, up);
-
-		// プロジェクションマトリクス設定
-		constexpr float fov = DirectX::XMConvertToRadians(45.0f);
-		float aspect = static_cast<float>(rect.right - rect.left) / (rect.bottom - rect.top);
-		float nearZ = 0.1f;
-		float farZ = 100.0f;
-		DirectX::XMMATRIX projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, aspect, nearZ, farZ);
-
 		// ライトの設定
 		DirectX::XMVECTOR light = DirectX::XMVector3Normalize(DirectX::XMVectorSet(0.0f, 0.5f, -1.0f, 0.0f));
 
+		Utility::ObjFile::ConstantBuffer constantBufferData = p_DirectGraphics_->GetConstantBufferData3D();
+
 		// コンスタントバッファの設定
-		XMStoreFloat4x4(&constantBufferData.view, XMMatrixTranspose(viewMatrix));
-		XMStoreFloat4x4(&constantBufferData.projection, XMMatrixTranspose(projectionMatrix));
 		XMStoreFloat4(&constantBufferData.lightVector, light);
 
 		// ライトのカラー設定
 		constantBufferData.lightColor = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		p_DirectGraphics_->SetConstantBufferData3D(constantBufferData);
 	}
 
 	// 文字列を分割する
@@ -354,32 +341,32 @@ namespace Engine
 			return;
 		}
 
-		int start_point = 0;
+		int startPoint = 0;
 
 		while (p_Buffer_[count] != '\0')
 		{
 			if (p_Buffer_[count] == splitChar_)
 			{
-				if (start_point != count)
+				if (startPoint != count)
 				{
-					char split_str[256] = { 0 };
-					strncpy_s(split_str, 256, &p_Buffer_[start_point], static_cast<rsize_t>(count) - start_point);
-					outString_.emplace_back(split_str);
+					char splitString[256] = { 0 };
+					strncpy_s(splitString, 256, &p_Buffer_[startPoint], static_cast<rsize_t>(count) - startPoint);
+					outString_.emplace_back(splitString);
 				}
 				else
 				{
 					outString_.emplace_back("");
 				}
-				start_point = count + 1;
+				startPoint = count + 1;
 			}
 			count++;
 		}
 
-		if (start_point != count)
+		if (startPoint != count)
 		{
-			char split_str[256] = { 0 };
-			strncpy_s(split_str, 256, &p_Buffer_[start_point], static_cast<rsize_t>(count) - start_point);
-			outString_.emplace_back(split_str);
+			char splitString[256] = { 0 };
+			strncpy_s(splitString, 256, &p_Buffer_[startPoint], static_cast<rsize_t>(count) - startPoint);
+			outString_.emplace_back(splitString);
 		}
 	}
 }

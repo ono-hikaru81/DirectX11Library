@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "Camera/Camera.h"
 #include "Graphics/DirectGraphics.h"
 #include "Input/Input.h"
 #include "Model/ObjFile.h"
@@ -15,6 +16,9 @@
 
 namespace Engine
 {
+	/*
+	* @breif ライブラリの機能を纏めるクラス
+	*/
 	class Library
 	{
 	public:
@@ -65,9 +69,10 @@ namespace Engine
 		* @param height_ : Y軸の大きさ
 		* @param angle_ : 角度
 		*/
-		static void RenderTriangle(const float& posX_, const float& posY_, const float& width_, const float& height_, const float& angle_ = 0.0f)
+		static void RenderTriangle(const float& posX_, const float& posY_, const float& width_, const float& height_, const float& angle_ = 0.0f,
+									const Utility::Vector& color_ = Utility::Vector(0.0f, 0.0f, 0.0f))
 		{ 
-			p_Library->porygon.RenderTriangle(GetDirectGraphics(), posX_, posY_, width_, height_, angle_);
+			p_Library->polygon.RenderTriangle(GetDirectGraphics(), posX_, posY_, width_, height_, angle_, color_);
 		}
 
 		/**
@@ -78,9 +83,10 @@ namespace Engine
 		* @param height_ : Y軸の大きさ
 		* @param angle_ : 角度
 		*/
-		static void RenderRect(const float& posX_, const float& posY_, const float& width_, const float& height_, const float& angle_ = 0.0f)
+		static void RenderRect(const float& posX_, const float& posY_, const float& width_, const float& height_, const float& angle_ = 0.0f,
+								const Utility::Vector& color_ = Utility::Vector(0.0f, 0.0f, 0.0f))
 		{ 
-			p_Library->porygon.RenderRect(GetDirectGraphics(), posX_, posY_, width_, height_, angle_);
+			p_Library->polygon.RenderRect(GetDirectGraphics(), posX_, posY_, width_, height_, angle_, color_);
 		}
 
 		//================
@@ -209,6 +215,37 @@ namespace Engine
 			p_Library->objFile.Render(GetDirectGraphics(), pos_, scale_, degree_);
 		}
 
+		//========
+		// Camera
+		//========
+		/*
+		* @breif アクセサ関数
+		* @param pos_ : カメラ座標
+		*/
+		static void SetCameraPos(Utility::Vector pos_)
+		{
+			p_Library->camera.SetPos(pos_);
+		}
+
+		/*
+		* @breif アクセサ関数
+		* @param targetPos_ : 注視点座標
+		*/
+		static void SetCameraTargetPos(Utility::Vector targetPos_)
+		{
+			p_Library->camera.SetTargetPos(targetPos_);
+		}
+
+		/*
+		* @breif 更新
+		* @param targetPos_ : 注視点座標
+		* @param targetDegree_ : 注視点の角度
+		*/
+		static void UpdateCamera(Utility::Vector targetPos_, Utility::Vector targetDegree_)
+		{
+			p_Library->camera.Update(GetDirectGraphics(), targetPos_, targetDegree_);
+		}
+
 	private:
 		static DirectGraphics* GetDirectGraphics() { return &p_Library->directGraphics; }
 
@@ -218,10 +255,11 @@ namespace Engine
 		Window window {};					//! ウィンドウクラス
 		DirectGraphics directGraphics {};	//! ダイレクトグラフィックスクラス
 		ObjFile objFile{};					//! オブジェファイルクラス
-		Polygon porygon {};					//! ポリゴンクラス
+		Polygon polygon {};					//! ポリゴンクラス
 		Texture texture {};					//! テクスチャクラス
 		Input input {};						//! インプットクラス
 		Sound sound {};						//! サウンドクラス
+		Camera camera {};					//! カメラクラス
 	};
 }
 

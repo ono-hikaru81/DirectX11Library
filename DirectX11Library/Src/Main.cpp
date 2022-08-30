@@ -52,15 +52,20 @@ int APIENTRY WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ INT)
 			}
 
 			// ポリゴン描画
-			Engine::Library::RenderTriangle(0.0f, 0.0f, 100.0f, 100.0f);
-			Engine::Library::RenderRect(0.0f, 50.0f, 100.0f, 100.0f, 0.0f);
+			Engine::Library::RenderTriangle(0.0f, 0.0f, 100.0f, 100.0f, 0.0f, Utility::Vector(1.0f, 0.0f, 1.0f));
+			Engine::Library::RenderRect(0.0f, 50.0f, 100.0f, 100.0f, 0.0f, Utility::Vector(1.0f, 1.0f, 1.0f));
 
 			// テクスチャ描画
 			Engine::Library::DrawTexture(L"Res/Texture/miniball.png", 0.0f, 0.0f, 32.0f, 32.0f);
 
-			degree.operator+=(Utility::Vector(0.1f, 0.5f, 0.1f));
+			degree.operator+=(Utility::Vector(1.0f, 0.0f, 0.0f));
+			degree.operator+=(Utility::Vector(0.0f, 1.0f, 0.0f));
+			degree.operator+=(Utility::Vector(0.0f, 0.0f, 1.0f));
 			// objファイル描画
 			Engine::Library::RenderObjFile(pos, scale, degree);
+
+			// カメラ更新
+			Engine::Library::UpdateCamera(pos, Utility::Vector{ 0.0f, 0.0f, 0.0f});
 
 			Engine::Library::FinishRendering();
 		}

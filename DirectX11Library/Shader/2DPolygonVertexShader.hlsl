@@ -3,6 +3,7 @@ cbuffer ConstantBuffer
 {
 	float4x4 worldMatrix;	// ワールド変換行列
 	float4 viewPort;		// ビューポート
+	float4 color;			// 色
 }
 
 // VertexShaderに送られてくるデータ構造
@@ -23,6 +24,8 @@ VSOutput main(VSInput input)
 {
 	VSOutput output = input;
 	float4x4 world = worldMatrix;
+
+	output.color = color;
 
 	// Y軸の移動方向を反転し、移動量も2倍にしておく
 	world[3][0] *= 2.0f;

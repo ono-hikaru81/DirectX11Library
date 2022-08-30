@@ -11,16 +11,19 @@
 
 namespace Engine
 {
+	/*
+	* 入力する機能を実装するクラス
+	*/
 	class Input
 	{
 	private:
 		//! キーの状態
 		enum class KeyStatus
 		{
-			NoHold,
-			Pushed,
-			Held,
-			Released
+			NoHold,		//! 押していない
+			Pushed,		//! 押した瞬間
+			Held,		//! 押している
+			Released	//! 離した瞬間
 		};
 
 	private:
@@ -57,6 +60,8 @@ namespace Engine
 	private:
 		/**
 		* @breif キーの押下状態更新
+		* @param isPush_ : キーを押しているか
+		* @param state_ : キーの押下状態
 		*/
 		KeyStatus UpdateKeyStatus(const bool& isPush_, const KeyStatus& state_);
 
